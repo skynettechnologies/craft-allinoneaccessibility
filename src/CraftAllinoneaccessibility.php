@@ -9,16 +9,15 @@ use skynettechnologies\craftallinoneaccessibility\assetbundles\craftallinoneacce
 use yii\base\Event;
 use craft\web\View;
 use yii;
-use craft\base\Model;
 use yii\web\Application;
 use craft\helpers\UrlHelper;
 
 class CraftAllinoneaccessibility extends Plugin
 {
-    public static $plugin;
-    public string $schemaVersion = '2.0.0';
-    public bool $hasCpSettings = true;
-    public bool $hasCpSection = false;
+  public static $plugin;
+  public $schemaVersion = "1.0.3";
+  public $hasCpSettings = true;
+  public $hasCpSection = false;
 
   public function init()
   {
@@ -26,14 +25,15 @@ class CraftAllinoneaccessibility extends Plugin
     self::$plugin = $this;
 
     \Yii::$app->on(Application::EVENT_BEFORE_REQUEST, [$this, 'registerCustomJs']);
+    
   }
 
-  protected function createSettingsModel():?Model
+  protected function createSettingsModel()
   {
     return new Settings();
   }
 
-  protected function settingsHtml(): string
+  protected function settingsHtml()
   {
     
     $settingVal = $this->getSettings();
@@ -61,6 +61,7 @@ class CraftAllinoneaccessibility extends Plugin
       $settings = CraftAllinoneaccessibility::getInstance()->getSettings();
       
       $config = [
+        
           "license_key" => $settings->license_key,
           "color" => $settings->color,
           "position" => $settings->position,
@@ -75,7 +76,7 @@ class CraftAllinoneaccessibility extends Plugin
           $icon_type = isset($settings->icon_type) ? $settings->icon_type : "aioa-icon-type-1";
           $icon_size = isset($settings->icon_size) ? $settings->icon_size : "aioa-medium-icon";
       }
-      
+
       $customJsUrl = "https://www.skynettechnologies.com/accessibility/js/all-in-one-accessibility-js-widget-minify.js?colorcode=".$color_code."&token=".$license_key."&position=".$position.".".$icon_type.".".$icon_size." ";
       
       // Get the current URL path

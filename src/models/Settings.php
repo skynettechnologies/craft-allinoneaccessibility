@@ -2,6 +2,7 @@
 
 namespace skynettechnologies\craftAllinoneaccessibility\models;
 use craft\base\Model;
+use Craft;
 
 class Settings extends Model
 {
@@ -11,7 +12,7 @@ class Settings extends Model
   public $icon_type = "aioa-icon-type-1";
   public $icon_size = "aioa-medium-icon";
 
-  public function rules(): array
+  public function rules()
   {
       return [
         // these attributes are required

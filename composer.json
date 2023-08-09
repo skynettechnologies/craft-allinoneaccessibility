@@ -2,7 +2,7 @@
   "name": "skynettechnologies/craft-allinoneaccessibility",
   "description": "All in One Accessibility widget improves Typo3 website ADA compliance and browser experience for ADA, WCAG 2.1, Section 508, Australian DDA, European EAA EN 301 549, UK Equality Act (EA), Israeli Standard 5568, California Unruh, Ontario AODA, Canada ACA, German BITV, and France RGAA standards.",
   "type": "craft-plugin",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "keywords": [
     "craft",
     "cms",
@@ -17,7 +17,7 @@
     }
   ],
   "require": {
-    "craftcms/cms": "^4.0.0"
+    "craftcms/cms": "^3.0.0"
   },
   "autoload": {
     "psr-4": {
