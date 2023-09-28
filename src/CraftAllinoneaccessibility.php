@@ -43,14 +43,19 @@ class CraftAllinoneaccessibility extends Plugin
     $data['position'] = $settingVal['position'];
     $data['icon_type'] = $settingVal['icon_type'];
     $data['icon_size'] = $settingVal['icon_size'];
+    $data['isvalid_key'] = $settingVal['isvalid_key'];
+    $data['domain'] = $_SERVER['SERVER_NAME'];
 
-    return Craft::$app->view->renderTemplate("craft-allinoneaccessibility/settings",$data);
+    return Craft::$app->view->renderTemplate(
+      "craft-allinoneaccessibility/settings",
+      $data
+    );
   }
 
   public function registerCustomJs($event)
   {
       $app = $event->sender;
-      $scriptId = 'aioa-adawidget';
+      $scriptId = 'aioa-adawidgetnew';
       
       $license_key = "";
       $color_code = '#600b96';
@@ -75,7 +80,6 @@ class CraftAllinoneaccessibility extends Plugin
           $icon_type = isset($settings->icon_type) ? $settings->icon_type : "aioa-icon-type-1";
           $icon_size = isset($settings->icon_size) ? $settings->icon_size : "aioa-medium-icon";
       }
-      
       $customJsUrl = "https://www.skynettechnologies.com/accessibility/js/all-in-one-accessibility-js-widget-minify.js?colorcode=".$color_code."&token=".$license_key."&position=".$position.".".$icon_type.".".$icon_size." ";
       
       // Get the current URL path
