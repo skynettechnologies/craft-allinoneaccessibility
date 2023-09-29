@@ -179,6 +179,7 @@
     <div class="panel-body">
         <form method="post" enctype="multipart/form-data" id="form-module">
             <input type="hidden" id="isvalid_key" name="isvalid_key" value="{{ isvalid_key }}">
+            <input type="hidden" id="domain" class="aioa-domain" value="{{ domain }}">
             <div class="form-group row">
                 <label class="col-sm-2" for="input-status">License Key :</label>
                 <div class="col-sm-10">
@@ -348,7 +349,9 @@
    
 
     function checkLicenseKey(key){
-        var server_name = window.location.hostname;
+        
+        var server_name = $('.aioa-domain').val();
+        console.log(server_name)
         var request = new XMLHttpRequest();
         var url =  'https://www.skynettechnologies.com/add-ons/license-api.php?';
         var params = "token=" + key +"&server_name=" + server_name;
@@ -392,7 +395,7 @@
 
     function saveData(){
 
-    var server_name = window.location.origin;
+    var server_name = $('.aioa-domain').val();
     var color = document.getElementById("settings-color").value;
     var positionVal = $('.aioa-position:checked').val();
     var iconTypeVal = $('.icon_type:checked').val();

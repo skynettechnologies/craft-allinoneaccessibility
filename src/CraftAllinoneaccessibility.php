@@ -44,10 +44,12 @@ class CraftAllinoneaccessibility extends Plugin
     $data['icon_type'] = $settingVal['icon_type'];
     $data['icon_size'] = $settingVal['icon_size'];
     $data['isvalid_key'] = $settingVal['isvalid_key'];
-    $data['domain'] = $_SERVER['SERVER_NAME'];
-
+    $siteurl = Craft::$app->getSites()->currentSite->baseUrl;
+    $domain = parse_url($siteurl, PHP_URL_HOST);
+    $data['domain'] = $domain;
+    
     return Craft::$app->view->renderTemplate(
-      "craft-allinoneaccessibility/settings",
+      "allinone-accessibility/settings",
       $data
     );
   }
