@@ -149,29 +149,55 @@
     .d-none{
         display:none !important;
     }
+    #settings-invalid-key-msg{
+        color:red;
+    }
+    #settings-license_key_msg{
+        margin-top : 0.1rem;
+    }
+    .loading {
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0.7;
+        background-color: #fff;
+        z-index: 99;
+    }
+
+    .loading-image {
+        z-index: 100;
+    }
+    
 </style>
 
 <div class="panel panel-default aioa-settings-panel">
     <div class="panel-body">
         <form method="post" enctype="multipart/form-data" id="form-module">
+
+            <input type="hidden" id="isvalid_key" name="isvalid_key" value="{{ isvalid_key }}">
+            <input type="hidden" id="domain" class="aioa-domain" value="{{ domain }}">
             <div class="form-group row">
                 <label class="col-sm-2" for="input-status">License Key :</label>
                 <div class="col-sm-10">
                     <input type="text" name="license_key" value="{{ license_key }}" placeholder="Enter License Key"
-                        id="input-name" class="form-control license_key" />
+                        id="input-name" class="form-control license_key" onkeyup="checkLicenseKey(this.value)"/>
                 </div>
                 <div class="col-sm-2"></div>
                 <div class="col-sm-10">
-                    <div style="margin-top: 10px;">
-                        <p id="license_key_msg"
-                            class="license_key_msg{% if (license_key != '') and ( license_key | length > 18 ) %} d-none {% endif %}">
-                            You are currently using Free version which have limited features. </br>Please <a
-                                href="https://www.skynettechnologies.com/add-ons/product/all-in-one-accessibility/">purchase</a>
-                            and get License Key for additional features on the ADA Widget.</p>
+                    <div style="margin-top: 5px;">
+                    <span id="invalid-key-msg" class="{% if (isvalid_key == 1) or (license_key == '')%} d-none{% endif %}">Key is Invalid!</span>
+                    <p id="license_key_msg" class="{% if (isvalid_key == 1) %} d-none{% endif %}">
+                        Please <a href="https://ada.skynettechnologies.us/trial-subscription?utm_source={{ domain }}&utm_medium=craft-plugin&utm_campaign=trial-subscription" target="_blank">subscribe</a>
+                        for a 10 days free trial and receive a license key to enable 52+ features of <br>All in One Accessibility Pro.No payment charged upfront, Cancel anytime.</p>
                     </div>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row common-class {% if (isvalid_key == 0) %} d-none{% endif %}">
                 <label class="col-sm-2" for="input-status">Color :</label>
                 <div class="col-sm-8">
                     <input type="text" name="color" value="{{ color }}" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
@@ -182,7 +208,7 @@
                         pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" value="{{ color }}" style="height: 37px">
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row common-class {% if (isvalid_key == 0) %} d-none{% endif %}">
                 <label class="col-sm-2" for="input-status">Icon Position :</label>
                 <div class="col-sm-10">
                     <div style="font-weight: bold">
@@ -191,37 +217,37 @@
                 </div>
                 <div class="col-sm-2"></div>
                 <div class="col-sm-3">
-                    <input type="radio" name="position" id="aioaPositionTL" value="top_left" {% if position=='top_left'
+                    <input type="radio" name="position" id="aioaPositionTL" class="aioa-position" value="top_left" {% if position=='top_left'
                         %} checked {% endif %}>
                     <label for="aioaPositionTL" style="font-weight:normal !important">Top left</label><br>
-                    <input type="radio" name="position" id="aioaPositionTC" value="top_center" {% if
+                    <input type="radio" name="position" id="aioaPositionTC" class="aioa-position" value="top_center" {% if
                         position=='top_center' %} checked {% endif %}>
                     <label for="aioaPositionTC" style="font-weight:normal !important">Top Center</label><br>
-                    <input type="radio" name="position" id="aioaPositionTR" value="top_right" {% if
+                    <input type="radio" name="position" id="aioaPositionTR" class="aioa-position" value="top_right" {% if
                         position=='top_right' %} checked {% endif %}>
                     <label for="aioaPositionTR" style="font-weight:normal !important">Top Right</label>
                 </div>
                 <div class="col-sm-3">
-                    <input type="radio" name="position" id="aioaPositionBL" value="bottom_left" {% if
+                    <input type="radio" name="position" id="aioaPositionBL" class="aioa-position" value="bottom_left" {% if
                         position=='bottom_left' %} checked {% endif %}>
                     <label for="aioaPositionBL" style="font-weight:normal !important">Bottom left</label><br>
-                    <input type="radio" name="position" id="aioaPositionBR" value="bottom_right" {% if
+                    <input type="radio" name="position" id="aioaPositionBR" class="aioa-position" value="bottom_right" {% if
                         position=='bottom_right' %} checked {% endif %}>
                     <label for="aioaPositionBR" style="font-weight:normal !important">Bottom Right</label><br>
-                    <input type="radio" name="position" id="aioaPositionBC" value="bottom_center" {% if
+                    <input type="radio" name="position" id="aioaPositionBC" class="aioa-position" value="bottom_center" {% if
                         position=='bottom_center' %} checked {% endif %}>
                     <label for="aioaPositionBC" style="font-weight:normal !important">Bottom Center</label>
                 </div>
                 <div class="col-sm-3">
-                    <input type="radio" name="position" id="aioaPositionML" value="middel_left" {% if
+                    <input type="radio" name="position" id="aioaPositionML" class="aioa-position" value="middel_left" {% if
                         position=='middel_left' %} checked {% endif %}>
                     <label for="aioaPositionML" style="font-weight:normal !important">Middle left</label><br>
-                    <input type="radio" name="position" id="aioaPositionMR" value="middel_right" {% if
+                    <input type="radio" name="position" id="aioaPositionMR" class="aioa-position" value="middel_right" {% if
                         position=='middel_right' %} checked {% endif %}>
                     <label for="aioaPositionMR" style="font-weight:normal !important">Middle Right</label>
                 </div>
             </div>
-            <div class="form-group row mt-4 icon{% if (license_key == '') or ( license_key | length < 18 ) %} d-none{% endif %}">
+            <div class="form-group row mt-4 icon common-class aioa-icon-type{% if (isvalid_key == 0) %} d-none{% endif %}">
                 <label class="col-sm-2">Select icon type:</label>
                 <div class="col-sm-2">
                     <input type="radio" id="edit-type-1" name="icon_type" value="aioa-icon-type-1"
@@ -251,11 +277,10 @@
                     </label>
                 </div>
             </div>
-            <div
-                class="form-group row mt-4 icon{% if (license_key == '') or ( license_key | length < 18 ) %} d-none{% endif %}">
+            <div class="form-group row mt-4 icon common-class {% if (isvalid_key == 0) %} d-none{% endif %}">
                 <label class="col-sm-2" style="margin: auto">Select icon size:</label>
                 <div class="col-sm-2">
-                    <input type="radio" id="edit-size-big" name="icon_size" value="aioa-big-icon" class="input-hidden"
+                    <input type="radio" id="edit-size-big" name="icon_size" value="aioa-big-icon" class="input-hidden aioa-iconsize"
                         {% if icon_size=='aioa-big-icon' %} checked {% endif %}>
                     <label for="edit-size-big" class="icon-label">
                         <img src="https://skynettechnologies.com/sites/default/files/python/{{ icon_type }}.svg"
@@ -265,7 +290,7 @@
                 </div>
                 <div class="col-sm-2">
                     <input type="radio" id="edit-size-medium" name="icon_size" value="aioa-medium-icon"
-                        class="input-hidden" {% if icon_size=='aioa-medium-icon' %} checked {% endif %}>
+                        class="input-hidden aioa-iconsize" {% if icon_size=='aioa-medium-icon' %} checked {% endif %}>
                     <label for="edit-size-medium" class="icon-label">
                         <img src="https://skynettechnologies.com/sites/default/files/python/{{ icon_type }}.svg"
                             width="65" height="65" style="margin: auto" class="icon-img" />
@@ -274,7 +299,7 @@
                 </div>
                 <div class="col-sm-2">
                     <input type="radio" id="edit-size-default" name="icon_size" value="aioa-default-icon"
-                        class="input-hidden" {% if icon_size=='aioa-default-icon' %} checked {% endif %}>
+                        class="input-hidden aioa-iconsize" {% if icon_size=='aioa-default-icon' %} checked {% endif %}>
                     <label for="edit-size-default" class="icon-label">
                         <img src="https://skynettechnologies.com/sites/default/files/python/{{ icon_type }}.svg"
                             width="55" height="55" style="margin: auto" class="icon-img" />
@@ -283,7 +308,7 @@
                 </div>
                 <div class="col-sm-2">
                     <input type="radio" id="edit-size-small" name="icon_size" value="aioa-small-icon"
-                        class="input-hidden" {% if icon_size=='aioa-small-icon' %} checked {% endif %}>
+                        class="input-hidden aioa-iconsize" {% if icon_size=='aioa-small-icon' %} checked {% endif %}>
                     <label for="edit-size-small" class="icon-label">
                         <img src="https://skynettechnologies.com/sites/default/files/python/{{ icon_type }}.svg"
                             width="45" height="45" style="margin: auto" class="icon-img" />
@@ -292,7 +317,7 @@
                 </div>
                 <div class="col-sm-2">
                     <input type="radio" id="edit-size-extra-small" name="icon_size"
-                        value="aioa-extra-small-icon"" class=" input-hidden" {% if icon_size=='aioa-extra-small-icon' %}
+                        value="aioa-extra-small-icon"" class="input-hidden aioa-iconsize" {% if icon_size=='aioa-extra-small-icon' %}
                         checked {% endif %}>
                     <label for="edit-size-extra-small" class="icon-label">
                         <img src="https://skynettechnologies.com/sites/default/files/python/{{ icon_type }}.svg"
@@ -300,6 +325,9 @@
                         <span class="visually-hidden">Type 3</span>
                     </label>
                 </div>
+            </div>
+            <div class="loading" style="display: none">
+                <img id="loading-image" src="../../../../vendor/skynettechnologies/craft-allinoneaccessibility/resources/img/loader.gif" alt="Loading..." />
             </div>
         </form>
     </div>
@@ -319,16 +347,74 @@
         $(".icon-img").attr("src", iconImg);
     });
 
-    $(".license_key").change(function () {
-        var keyVal = $(this).val();
-        if (keyVal.length >= 18) {
-            $(".icon").removeClass('d-none');
-            $(".license_key_msg").addClass('d-none');
+   
 
-        } else {
-            $(".license_key_msg").removeClass('d-none');
-            $(".icon").addClass('d-none');
+    function checkLicenseKey(key){
+        var server_name = $('.aioa-domain').val();
+        
+        var request = new XMLHttpRequest();
+        var url =  'https://www.skynettechnologies.com/add-ons/license-api.php?';
+        var params = "token=" + key +"&server_name=" + server_name;
+
+        request.open('POST', url, true);
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        request.onreadystatechange = function() {
+            $('.loading').hide();
+            if (request.readyState === XMLHttpRequest.DONE) {
+                if (request.status === 200) {
+                    var response = JSON.parse(request.response);
+                    var elementMsg = document.getElementById('settings-license_key_msg');
+                    var elementvalidKeyMsg = document.getElementById('settings-invalid-key-msg');
+                    var elements = document.querySelectorAll('.common-class');
+                    
+                    if (response.valid == 1){
+                        elementMsg.classList.add('d-none');
+                        elementvalidKeyMsg.classList.add('d-none');
+                        
+                        elements.forEach(el => {
+                            el.classList.remove('d-none')
+                        });
+                        saveData();
+                    }else{
+                        elementMsg.classList.remove('d-none');
+                        elementvalidKeyMsg.classList.remove('d-none');
+
+                        elements.forEach(el => {
+                            el.classList.add('d-none')
+                        });
+                    }
+                    document.getElementById("settings-isvalid_key").value = response.valid;
+                }
+            }
+            
+        };
+        $('.loading').show();
+        request.send(params);
+    }
+
+    function saveData(){
+
+    var server_name = $('.aioa-domain').val();
+    var color = document.getElementById("settings-color").value;
+    var positionVal = $('.aioa-position:checked').val();
+    var iconTypeVal = $('.icon_type:checked').val();
+    var iconSizeVal = $('.aioa-iconsize:checked').val();
+    
+    var request = new XMLHttpRequest();
+    var url =  'https://ada.skynettechnologies.us/api/widget-setting-update-platform';
+    var params = "u=" + server_name +"&widget_position=" + positionVal +"&widget_color_code=" + color +"&widget_icon_type=" + iconTypeVal +"&widget_icon_size="+ iconSizeVal;
+
+    request.open('POST', url, true);
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    request.onreadystatechange = function() {
+
+        if (request.readyState === XMLHttpRequest.DONE) {
+          if (request.status === 200) {
+            }
         }
-
-    });
+      };
+    request.send(params);
+}
 </script>

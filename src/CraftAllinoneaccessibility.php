@@ -9,15 +9,16 @@ use skynettechnologies\craftallinoneaccessibility\assetbundles\craftallinoneacce
 use yii\base\Event;
 use craft\web\View;
 use yii;
+use craft\base\Model;
 use yii\web\Application;
 use craft\helpers\UrlHelper;
 
 class CraftAllinoneaccessibility extends Plugin
 {
-  public static $plugin;
-  public $schemaVersion = "1.0.3";
-  public $hasCpSettings = true;
-  public $hasCpSection = false;
+    public static $plugin;
+    public $schemaVersion = '1.0.3';
+    public $hasCpSettings = true;
+    public $hasCpSection = false;
 
   public function init()
   {
@@ -25,7 +26,6 @@ class CraftAllinoneaccessibility extends Plugin
     self::$plugin = $this;
 
     \Yii::$app->on(Application::EVENT_BEFORE_REQUEST, [$this, 'registerCustomJs']);
-    
   }
 
   protected function createSettingsModel()
@@ -43,14 +43,23 @@ class CraftAllinoneaccessibility extends Plugin
     $data['position'] = $settingVal['position'];
     $data['icon_type'] = $settingVal['icon_type'];
     $data['icon_size'] = $settingVal['icon_size'];
+    $data['isvalid_key'] = $settingVal['isvalid_key'];
+    
+    $siteurl = Craft::$app->getSites()->currentSite->baseUrl;
+    $domain = parse_url($siteurl, PHP_URL_HOST);
+    
+    $data['domain'] = $domain;
 
-    return Craft::$app->view->renderTemplate("craft-allinoneaccessibility/settings",$data);
+    return Craft::$app->view->renderTemplate(
+      "allinone-accessibility/settings",
+      $data
+    );
   }
 
   public function registerCustomJs($event)
   {
       $app = $event->sender;
-      $scriptId = 'aioa-adawidget';
+      $scriptId = 'aioa-adawidgetnew';
       
       $license_key = "";
       $color_code = '#600b96';
@@ -61,7 +70,6 @@ class CraftAllinoneaccessibility extends Plugin
       $settings = CraftAllinoneaccessibility::getInstance()->getSettings();
       
       $config = [
-        
           "license_key" => $settings->license_key,
           "color" => $settings->color,
           "position" => $settings->position,
@@ -76,7 +84,6 @@ class CraftAllinoneaccessibility extends Plugin
           $icon_type = isset($settings->icon_type) ? $settings->icon_type : "aioa-icon-type-1";
           $icon_size = isset($settings->icon_size) ? $settings->icon_size : "aioa-medium-icon";
       }
-
       $customJsUrl = "https://www.skynettechnologies.com/accessibility/js/all-in-one-accessibility-js-widget-minify.js?colorcode=".$color_code."&token=".$license_key."&position=".$position.".".$icon_type.".".$icon_size." ";
       
       // Get the current URL path
