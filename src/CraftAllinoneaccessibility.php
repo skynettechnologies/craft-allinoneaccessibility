@@ -57,7 +57,7 @@ class CraftAllinoneaccessibility extends Plugin
   public function registerCustomJs($event)
   {
       $app = $event->sender;
-      $scriptId = 'aioa-adawidgetnew';
+      $scriptId = 'aioa-adawidget';
       
       $license_key = "";
       $color_code = '#600b96';
