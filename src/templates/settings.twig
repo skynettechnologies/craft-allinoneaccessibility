@@ -178,11 +178,10 @@
 <div class="panel panel-default aioa-settings-panel">
     <div class="panel-body">
         <form method="post" enctype="multipart/form-data" id="form-module">
-
             <input type="hidden" id="isvalid_key" name="isvalid_key" value="{{ isvalid_key }}">
             <input type="hidden" id="domain" class="aioa-domain" value="{{ domain }}">
             <div class="form-group row">
-                <label class="col-sm-2" for="input-status">License Key :</label>
+                <label class="col-sm-2" for="input-status">License key required for full version:</label>
                 <div class="col-sm-10">
                     <input type="text" name="license_key" value="{{ license_key }}" placeholder="Enter License Key"
                         id="input-name" class="form-control license_key" onkeyup="checkLicenseKey(this.value)"/>
@@ -192,12 +191,12 @@
                     <div style="margin-top: 5px;">
                     <span id="invalid-key-msg" class="{% if (isvalid_key == 1) or (license_key == '')%} d-none{% endif %}">Key is Invalid!</span>
                     <p id="license_key_msg" class="{% if (isvalid_key == 1) %} d-none{% endif %}">
-                        Please <a href="https://ada.skynettechnologies.us/trial-subscription?utm_source={{ domain }}&utm_medium=craft-plugin&utm_campaign=trial-subscription" target="_blank">subscribe</a>
-                        for a 10 days free trial and receive a license key to enable 52+ features of <br>All in One Accessibility Pro.No payment charged upfront, Cancel anytime.</p>
+                        Please <a href="https://www.skynettechnologies.com/add-ons/cart/?add-to-cart=116&variation_id=117&quantity=1&utm_source={{ domain }}&utm_medium=craft-plugin&utm_campaign=purchase-plan" target="_blank">Upgrade</a>
+                        to full version of All in One Accessibility Pro.</p>
                     </div>
                 </div>
             </div>
-            <div class="form-group row common-class {% if (isvalid_key == 0) %} d-none{% endif %}">
+            <div class="form-group row">
                 <label class="col-sm-2" for="input-status">Color :</label>
                 <div class="col-sm-8">
                     <input type="text" name="color" value="{{ color }}" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
@@ -208,7 +207,7 @@
                         pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" value="{{ color }}" style="height: 37px">
                 </div>
             </div>
-            <div class="form-group row common-class {% if (isvalid_key == 0) %} d-none{% endif %}">
+            <div class="form-group row">
                 <label class="col-sm-2" for="input-status">Icon Position :</label>
                 <div class="col-sm-10">
                     <div style="font-weight: bold">
@@ -350,8 +349,9 @@
    
 
     function checkLicenseKey(key){
-        var server_name = $('.aioa-domain').val();
         
+        var server_name = $('.aioa-domain').val();
+        console.log(server_name)
         var request = new XMLHttpRequest();
         var url =  'https://www.skynettechnologies.com/add-ons/license-api.php?';
         var params = "token=" + key +"&server_name=" + server_name;
