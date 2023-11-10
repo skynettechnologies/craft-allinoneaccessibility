@@ -1,4 +1,26 @@
 <style>
+    body .ada-banner-section{
+		padding-left: 60px;
+		padding-right: 60px;
+		margin-bottom: 50px;
+	}
+	body .ada-banner-section > .content{
+		max-width: 1200px;
+    	margin: 0 auto;
+	}
+	body .ada-banner-section .inner-wrapper{
+		justify-content: space-between;
+	}
+    body .ada-banner-section .inner-wrapper .intro .text{
+        background: transparent;
+    border: 0;
+    }
+    body .ada-banner-section .inner-wrapper .intro .btn{
+        height: auto;
+    }
+    body .ada-banner-section .inner-wrapper .intro .title{
+        line-height: 1.5;
+    }
     .aioa-settings-panel .input-hidden {
         position: absolute;
         left: -9999px;
@@ -174,11 +196,11 @@
     }
     
 </style>
-
+<div class="dicount_banner"></div>
 <div class="panel panel-default aioa-settings-panel">
     <div class="panel-body">
         <form method="post" enctype="multipart/form-data" id="form-module">
-            <input type="hidden" id="isvalid_key" name="isvalid_key" value="{{ isvalid_key }}">
+            <input type="hidden" id="isvalid_key" class="isvalid_key" name="isvalid_key" value="{{ isvalid_key }}">
             <input type="hidden" id="domain" class="aioa-domain" value="{{ domain }}">
             <div class="form-group row">
                 <label class="col-sm-2" for="input-status">License key required for full version:</label>
@@ -333,6 +355,11 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
+    $(document).ready(function() {
+        if($(".isvalid_key").val() == 0){
+            setCouponBanner();
+        }
+    });
 
     $('.colorpicker').on('input', function () {
         $('.colorint').val(this.value);
@@ -346,7 +373,14 @@
         $(".icon-img").attr("src", iconImg);
     });
 
-   
+    function setCouponBanner(){
+        $.ajax({ url: "https://www.skynettechnologies.com/add-ons/discount_offer.php?platform=craft",
+            context: document.body,
+            success: function(res){
+                    $(".dicount_banner").html(res);
+                }
+            });
+    }
 
     function checkLicenseKey(key){
         
@@ -369,6 +403,7 @@
                     var elements = document.querySelectorAll('.common-class');
                     
                     if (response.valid == 1){
+                        $(".dicount_banner").hide()
                         elementMsg.classList.add('d-none');
                         elementvalidKeyMsg.classList.add('d-none');
                         
@@ -377,6 +412,8 @@
                         });
                         saveData();
                     }else{
+                        $(".dicount_banner").show()
+                        setCouponBanner();
                         elementMsg.classList.remove('d-none');
                         elementvalidKeyMsg.classList.remove('d-none');
 
