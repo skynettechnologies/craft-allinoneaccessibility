@@ -1,14 +1,8 @@
 {
   "name": "skynettechnologies/craft-allinoneaccessibility",
-  "description": "All in One Accessibility widget improves Craft website ADA compliance and browser experience for ADA, WCAG 2.1, Section 508, Australian DDA, European EAA EN 301 549, UK Equality Act (EA), Israeli Standard 5568, California Unruh, Ontario AODA, Canada ACA, German BITV, and France RGAA Standards.",
+  "description": "All in One Accessibility widget improves Craft website ADA compliance and browser experience for ADA, WCAG 2.1 & 2.2, Section 508, Australian DDA, European EAA EN 301 549, UK Equality Act (EA), Israeli Standard 5568, California Unruh, Ontario AODA, Canada ACA, German BITV, France RGAA, Brazilian Inclusion Law (LBI 13.146/2015), Spain UNE 139803:2012, JIS X 8341 (Japan), Italian Stanca Act and Switzerland DDA Standards.",
   "type": "craft-plugin",
-  "keywords": [
-    "craft",
-    "cms",
-    "craftcms",
-    "craft-plugin",
-    "allinoneaccessibility"
-  ],
+  "keywords": ["craft","WCAG","ATAG","ADA", "Section 508","accessibility compliance","disability friendly site","accessibility rules","web accessibility","compliance","WCAG 2.1","web accessibility widget","accessibility widget","accessibility plugin","web accessibility plugin","digital accessibility plugin","digital accessibility widget","web accessibility compliance","digital accessibility compliance","accessibe alternative","userways alternative","accessible website","Australian DDA","European EAA EN 301 549","UK Equality Act","Israeli Standard 5568","California Unruh","Ontario AODA","Canada ACA","German BITV","France RGAA"],
   "license": "MIT",
   "authors": [
     {
