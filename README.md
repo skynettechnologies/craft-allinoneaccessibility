@@ -2,6 +2,10 @@
 
 All in One Accessibility integration into Craft CMS 3 or 4.
 
+All in One Accessibility widget improves Craft website ADA compliance and browser experience for ADA, WCAG 2.1 & 2.2, Section 508, Australian DDA, European EAA EN 301 549, UK Equality Act (EA), Israeli Standard 5568, California Unruh, Ontario AODA, Canada ACA, German BITV, France RGAA, Brazilian Inclusion Law (LBI 13.146/2015), Spain UNE 139803:2012, JIS X 8341 (Japan), Italian Stanca Act and Switzerland DDA Standards.
+
+It uses the accessibility interface which handles UI and design related adjustments. All in One Accessibility app enhances your Craft website accessibility to people with hearing or vision impairments, motor impaired, color blind, dyslexia, cognitive & learning impairments, seizure and epileptic, and ADHD problems.
+
 More info on how to use All in One Accessibility can be found on the (https://www.skynettechnologies.com/all-in-one-accessibility).
 
 ## Styling
