@@ -7,7 +7,7 @@ use craft\web\Controller;
 
 class ConfigController extends Controller
 {
-  protected array|bool|int $allowAnonymous = ["config"];
+  protected $allowAnonymous = ["config"];
   
   public function actionConfig()
   {

@@ -196,9 +196,7 @@
     }
     
 </style>
-
 <div class="dicount_banner"></div>
-
 <div class="panel panel-default aioa-settings-panel">
     <div class="panel-body">
         <form method="post" enctype="multipart/form-data" id="form-module">
@@ -362,16 +360,27 @@
             setCouponBanner();
         }
     });
+
     $('.colorpicker').on('input', function () {
         $('.colorint').val(this.value);
+        saveData();
     });
     $('.colorint').on('input', function () {
         $('.colorpicker').val(this.value);
+        saveData();
     });
     $(".icon_type").change(function () {
         var iconType = $(this).val();
         var iconImg = $("#settings-" + iconType + "-img").attr("src");
         $(".icon-img").attr("src", iconImg);
+         saveData();
+    });
+
+    $(".aioa-position").change(function () {
+        saveData();
+    });
+    $(".aioa-iconsize").change(function () {
+        saveData();
     });
 
     function setCouponBanner(){
@@ -382,7 +391,7 @@
                 }
             });
     }
-   
+
     function checkLicenseKey(key){
         
         var server_name = $('.aioa-domain').val();
@@ -432,7 +441,7 @@
     }
 
     function saveData(){
-
+    console.log('hek')
     var server_name = $('.aioa-domain').val();
     var color = document.getElementById("settings-color").value;
     var positionVal = $('.aioa-position:checked').val();
