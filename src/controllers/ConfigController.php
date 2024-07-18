@@ -7,10 +7,11 @@ use craft\web\Controller;
 
 class ConfigController extends Controller
 {
-  protected $allowAnonymous = ["config"];
+  protected array|bool|int $allowAnonymous = ["config"];
   
   public function actionConfig()
   {
+    /* Get Setting Data*/
     $settings = CraftAllinoneaccessibility::getInstance()->getSettings();
     
     $config = [

@@ -15,7 +15,7 @@ We provide a 10-day free trial. Get started [here](https://ada.skynettechnologie
 ## Installation
 
 ### Prerequisites
-- Craft version 3.X
+- Craft version 4.X
 
 ### Steps
 
@@ -60,7 +60,7 @@ https://craft.skynettechnologies.us/
 ## Documentation
 
 - [How to install All in One Accessibility Plugin on Craft](https://www.skynettechnologies.com/blog/craft-cms-web-accessibility-widget-installation)
-- [All in One Accessibility - User Guide](https://www.skynettechnologies.com/sites/default/files/accessibility-widget-features-list.pdf)
+- [All in One Accessibility - Features Guide](https://www.skynettechnologies.com/sites/default/files/accessibility-widget-features-list.pdf)
 
 ## Submit a Support Request
 
@@ -89,6 +89,10 @@ This plugin is developed and maintained by [Skynet Technologies USA LLC](https:/
 
 ## Current Maintainers
 - [Skynet Technologies USA LLC](https://github.com/skynettechnologies)
+
+
+
+
 
 
 

@@ -196,7 +196,9 @@
     }
     
 </style>
+
 <div class="dicount_banner"></div>
+
 <div class="panel panel-default aioa-settings-panel">
     <div class="panel-body">
         <form method="post" enctype="multipart/form-data" id="form-module">
@@ -360,7 +362,6 @@
             setCouponBanner();
         }
     });
-
     $('.colorpicker').on('input', function () {
         $('.colorint').val(this.value);
         saveData();
@@ -370,12 +371,11 @@
         saveData();
     });
     $(".icon_type").change(function () {
+        saveData();
         var iconType = $(this).val();
         var iconImg = $("#settings-" + iconType + "-img").attr("src");
         $(".icon-img").attr("src", iconImg);
-         saveData();
     });
-
     $(".aioa-position").change(function () {
         saveData();
     });
@@ -391,7 +391,7 @@
                 }
             });
     }
-
+   
     function checkLicenseKey(key){
         
         var server_name = $('.aioa-domain').val();
@@ -441,7 +441,7 @@
     }
 
     function saveData(){
-    console.log('hek')
+    
     var server_name = $('.aioa-domain').val();
     var color = document.getElementById("settings-color").value;
     var positionVal = $('.aioa-position:checked').val();
@@ -451,7 +451,7 @@
     var request = new XMLHttpRequest();
     var url =  'https://ada.skynettechnologies.us/api/widget-setting-update-platform';
     var params = "u=" + server_name +"&widget_position=" + positionVal +"&widget_color_code=" + color +"&widget_icon_type=" + iconTypeVal +"&widget_icon_size="+ iconSizeVal;
-
+    
     request.open('POST', url, true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
