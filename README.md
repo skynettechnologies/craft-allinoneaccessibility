@@ -1,4 +1,4 @@
-# All in One Accessibility®
+# All in One Accessibility™
 
 All in One Accessibility AI free Widget Supports limited 23 features only and includes 140 Languages. 
    
@@ -33,7 +33,7 @@ composer require skynettechnologies/craft-allinoneaccessibility
 2. In the Control Panel, go to Settings → Plugins and click the “Install” button for All in One Accessibility.
 
 ## Configuration
-To configure the widget, go to Settings -> Plugins -> All in One Accessibility®.
+To configure the widget, go to Settings -> Plugins -> All in One Accessibility™.
 
 ## Live Demo
 https://craft.skynettechnologies.us/
@@ -59,6 +59,7 @@ https://craft.skynettechnologies.us/
 
 ## Documentation
 
+- [Purchase Craft All in One Accessibility](https://www.skynettechnologies.com/craft-cms-website-accessibility)
 - [How to install All in One Accessibility Plugin on Craft](https://www.skynettechnologies.com/blog/craft-cms-web-accessibility-widget-installation)
 - [All in One Accessibility - Features Guide](https://www.skynettechnologies.com/sites/default/files/accessibility-widget-features-list.pdf)
 
@@ -79,7 +80,7 @@ Partner with us as an agency to provide comprehensive accessibility solutions to
 
 #### [Affiliate](https://www.skynettechnologies.com/affiliate-partner)
 
-Join our affiliate program and earn commissions by promoting All in One Accessibility®. Share our Widget with your network and help businesses improve their website accessibility while generating revenue.
+Join our affiliate program and earn commissions by promoting All in One Accessibility™. Share our Widget with your network and help businesses improve their website accessibility while generating revenue.
 
 For more details, Please visit [Partnership Opportunities](https://www.skynettechnologies.com/partner-program)
 
