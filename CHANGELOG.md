@@ -1,6 +1,6 @@
 # Changelog
 
-## 4.0.0 - 2023-08-09
+## 1.0.0 
 ### Added
 
 - Initial release

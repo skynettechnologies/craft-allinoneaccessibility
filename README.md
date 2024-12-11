@@ -1,4 +1,4 @@
-# All in One Accessibility®
+# All in One Accessibility™
 
 All in One Accessibility AI free Widget Supports limited 23 features only and includes 140 Languages. 
    
@@ -12,34 +12,28 @@ Unlock over 70 features with the All in One Accessibility Widget through a paid 
 
 We provide a 10-day free trial. Get started [here](https://ada.skynettechnologies.us/trial-subscription?utm_source=all-in-one-accessibility&utm_medium=landing-page&utm_campaign=trial-subscription).
 
-## Styling
-
-This plugin provide support for styling, as that's something that you should define in your application's stylesheet.
-
-## Requirements
-
-This plugin requires Craft CMS 3.0.0 or later.
-
 ## Installation
 
-To install the plugin, follow these instructions.
+### Prerequisites
+- Craft version 3.X
 
-1. Open your terminal and go to your Craft project:
+### Steps
 
-        cd /path/to/project
+You can install this plugin with two ways.
+        1. You can search for this plugin in the `Plugins Store` section of the Craft control panel.
+        2. click install.
 
-2. Then tell Composer to load the plugin:
+or run the following command from your project root:
 
-        composer require skynettechnologies/craft-allinoneaccessibility
+1. Then tell Composer to load the plugin:
 
-3. In the Control Panel, go to Settings → Plugins and click the “Install” button for All in One Accessibility.
+``` bash
+composer require skynettechnologies/craft-allinoneaccessibility
+```
+2. In the Control Panel, go to Settings → Plugins and click the “Install” button for All in One Accessibility.
 
-4. You can find out the basic features of free versions of All-in-one-accessibility on web page.
-
-## Configuring All in One Accessibility
-
-Go the plugin settings and configure All in One Accessibility the way you like.You can change the widget color & position.   
-
+## Configuration
+To configure the widget, go to Settings -> Plugins -> All in One Accessibility™.
 
 ## Live Demo
 https://craft.skynettechnologies.us/
@@ -65,6 +59,7 @@ https://craft.skynettechnologies.us/
 
 ## Documentation
 
+- [Purchase Craft All in One Accessibility](https://www.skynettechnologies.com/craft-cms-website-accessibility)
 - [How to install All in One Accessibility Plugin on Craft](https://www.skynettechnologies.com/blog/craft-cms-web-accessibility-widget-installation)
 - [All in One Accessibility - Features Guide](https://www.skynettechnologies.com/sites/default/files/accessibility-widget-features-list.pdf)
 
@@ -79,19 +74,35 @@ Alternatively, you can send an email to our support team:
 
 ## Partnership Opportunities
 
-#### [Agency](https://www.skynettechnologies.com/agency-partners)
+#### [Agency Partnership](https://www.skynettechnologies.com/agency-partners)
 
 Partner with us as an agency to provide comprehensive accessibility solutions to your clients. Get access to exclusive resources, training, and support to help you implement and manage accessibility features effectively.
 
-#### [Affiliate](https://www.skynettechnologies.com/affiliate-partner)
+#### [Affiliate Partnership](https://www.skynettechnologies.com/affiliate-partner)
 
-Join our affiliate program and earn commissions by promoting All in One Accessibility®. Share our Widget with your network and help businesses improve their website accessibility while generating revenue.
+Join our affiliate program and earn commissions by promoting All in One Accessibility™. Share our Widget with your network and help businesses improve their website accessibility while generating revenue.
 
-For more details, Please visit [Partnership Opportunities](https://www.skynettechnologies.com/partner-program)
+For more details, Please visit [Partnership Opportunities Page](https://www.skynettechnologies.com/partner-program)
 
 ## Credits
 
-This plugin is developed and maintained by [Skynet Technologies USA LLC](https://www.skynettechnologies.com)
+This addon is developed and maintained by [Skynet Technologies USA LLC](https://www.skynettechnologies.com)
 
 ## Current Maintainers
 - [Skynet Technologies USA LLC](https://github.com/skynettechnologies)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
