@@ -35,7 +35,7 @@ class CraftAllinoneaccessibility extends Plugin
 
   protected function settingsHtml(): string
   {
-    
+     \skynettechnologies\craftallinoneaccessibility\assetbundles\AdminSettingsAsset::register(Craft::$app->getView());
     $settingVal = $this->getSettings();
     
     $data['license_key'] = $settingVal['license_key'];
@@ -48,12 +48,23 @@ class CraftAllinoneaccessibility extends Plugin
     $domain = parse_url($siteurl, PHP_URL_HOST);
     $data['domain'] = $domain;
     
+    if (Craft::$app->getUser()->getIdentity()) {
+      $currentUser = Craft::$app->getUser()->getIdentity();
+  
+      // Get user details
+     $data['username']= $currentUser->username; // User's username
+     $data['email'] = $currentUser->email;       // User's email
+      $id = $currentUser->id;             // User's ID
+
+  } else {
+      echo "No user is currently logged in.";
+  }
+    
     return Craft::$app->view->renderTemplate(
       "allinone-accessibility/settings",
       $data
     );
   }
-
   public function registerCustomJs($event)
   {
       $app = $event->sender;
