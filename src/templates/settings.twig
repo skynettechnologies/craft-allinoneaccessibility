@@ -45,10 +45,19 @@ ol, ul {
 }
 .all-in-one-accessibility-wrap .accessibility-settings .all-one-accessibility-form .save-changes-btn .btn {
     border-radius: .36rem;
-    padding: 20px 5% 5% 30px;
+    padding: 20px 3% 2% 29px;
     background-color: #420083;
 }
   </style>
+  {#<img src="https://ada.skynettechnologies.us/public/trial-assets/images/all-in-one-accessibility-logo.svg" alt="All in One Accessibility - Skynet Technologies" style="#}
+  {#    align-items: center;#}
+  {#   margin-top: 2%;#}
+  {#    display: block;#}
+  {#    margin-left: auto;#}
+  {#    margin-right: auto;#}
+  {#    width: 30%;#}
+  {#">#}
+
     <div class="shopify-wrap-block">
       <div class="container">
         <div class="set-width">
@@ -763,19 +772,25 @@ ol, ul {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     
   <script>
-  
+  let is_widget_custom_position = 0; // Global default initialization
+let is_widget_custom_size = 0;
           // Listen for messages from the parent page
       
      const urlParams = new URLSearchParams(window.location.search);
               const domain = '{{ domain }}';
               const username = '{{ username }}';
               const email = '{{ email }}';
-          
+              
+              
+  
               if (domain) {
-             }
+                 
+              }
   
   
   function fetchApiData(website_name) {
+   
+  
   
       var packageType = "free-widget";
       var arrDetails = {
@@ -820,7 +835,8 @@ ol, ul {
           return response.json(); // Parse the JSON response
       })
       .then(result => {
-          // Log the result to check the response structur
+          // Log the result to check the response structure
+        
           
           // Check if the response contains a valid link
           if (result && result.link) {
@@ -844,6 +860,7 @@ ol, ul {
                   return response.json();
               })
               .then(data => {
+                  console.log("Response from add-user-domain API:", data);
   
                   // Handle the response from the add-user-domain API (success/failure)
                   if (data.success) {
@@ -874,16 +891,15 @@ ol, ul {
   
    var domain_name = domain;
   
-  // var domain_name = document.getElementById('domain-list').options[0].text;
   var website_name = btoa(domain_name);
-         
+        
           fetchApiResponse(domain_name);
          fetchApiData(website_name); // Fetch API response for the updated domain
       // Set the initial domain name and fetch API response on page load
       window.onload = function () {
-         
+          
            website_name = btoa(domain_name);
-        
+         
           fetchApiResponse(domain_name);
           fetchApiData(website_name); // Fetch API response for the updated domain
           // Fetch initial response for the default domain
@@ -912,7 +928,7 @@ ol, ul {
                       .then((result) => {
               // Check if result and result.Data are valid
               if (result && result.Data && Object.keys(result.Data).length > 0) {
-               
+              
                 const settings = {
                     widget_position: result.Data.widget_position || defaultSettings.widget_position,
                     widget_color_code: result.Data.widget_color_code || defaultSettings.widget_color_code,
@@ -925,11 +941,12 @@ ol, ul {
                     widget_position_left: result.Data.widget_position_left || 0,
                     widget_position_right: result.Data.widget_position_right || 0,
                   };
+  
+                  console.log("Fetched settings:", settings);
                
                   populateSettings(settings);
                 // You can process the settings here or pass them to another function
               } else {
-                console.log("API returned 0 or no data. Loading settings from session or cookies.");
                     console.error("Invalid API response, using fallback settings.");
             
               }
@@ -955,9 +972,8 @@ ol, ul {
     .then((result) => {
       // Check if result and result.Data are valid
       if (result && result.Data && Object.keys(result.Data).length > 0) {
-        console.log("Widget settings fetched:", result.Data);
       } else {
-        console.log("API returned 0 or no data. Loading settings from session or cookies.");
+        
       }
     })
     .catch((error) => {
@@ -992,7 +1008,7 @@ ol, ul {
    
     const iconImg = `https://www.skynettechnologies.com/sites/default/files/${settings.widget_icon_type}.svg`;
     $(".iconimg").attr("src", iconImg);
- 
+
     const widget_icon_size_custom = document.getElementById("settings-widget_icon_size_custom");
     if (widget_icon_size_custom) {
       widget_icon_size_custom.value = settings.widget_icon_size_custom;
@@ -1048,9 +1064,9 @@ ol, ul {
   window.onload = function () {
     fetchSettings();
     domain_name = domain;
-   
+    
         website_name = btoa(domain_name);
-      
+       
         fetchApiResponse(domain_name);
        fetchApiData(website_name); 
   
@@ -1058,14 +1074,16 @@ ol, ul {
   
       $(document).ready(function () {
        
-  
+
         // Custom Switchers
         $("#settings-custom-position-switcher").click(function () {
+                 is_widget_custom_position = 1;
           $(".custom-position-controls").toggleClass("hide");
           $(".widget-position").toggleClass("hide");
           
         });
         $("#settings-custom-size-switcher").click(function () {
+            is_widget_custom_size = 1;
           $(".custom-size-controls").toggleClass("hide");
           $(".widget-icon").toggleClass("hide");
         });
@@ -1104,7 +1122,7 @@ ol, ul {
       typeOptions.forEach((option) => {
         option.addEventListener("click", (event) => {
           var ico_type = document.querySelector('input[name="aioa_icon_type"]:checked').value;
-        
+       
           sizeOptionsImg.forEach((option2) => {
             option2.setAttribute("src", "https://www.skynettechnologies.com/sites/default/files/" + ico_type + ".svg");
           });
@@ -1115,13 +1133,13 @@ ol, ul {
       // Set icon on size select
       sizeOptions.forEach((option) => {
         var ico_size_value = document
-          .querySelector('input[name="aioa_icon_size"]:checked + label img')
+          .querySelector('input[name="settings[aioa_icon_size]"]:checked + label img')
           .getAttribute("width");
-          
+         
         // Set default value to custom size input
         const widget_icon_size_custom = document.getElementById("settings-widget_icon_size_custom");
         document.getElementById("settings-widget_icon_size_custom").value = widget_icon_size_custom;
-      
+       
      
         option.addEventListener("click", (event) => {
           var ico_width = document
@@ -1145,26 +1163,10 @@ ol, ul {
           custSizePreview.setAttribute("height", ico_size_value);
           custSizePreviewLabel.innerHTML = ico_size_value;
         }
-      //   if (ico_size_value < 20) {
-      //     custSizePreview.setAttribute("width", 20);
-      //     custSizePreview.setAttribute("height", 20);
-      //     custSizePreviewLabel.innerHTML = 20;
-      //   }
-      //   if (ico_size_value > 150) {
-      //     custSizePreview.setAttribute("width", 150);
-      //     custSizePreview.setAttribute("height", 150);
-      //     custSizePreviewLabel.innerHTML = 150;
-      //   }
+    
       });
   
   
-  
-  
-  <!-- API -->
-                                
-  
-  
-      
         $('input[name="settings[position]"]').change(function () {
           var icon_position = document.querySelector('input[name="position"]:checked').value;
         });
@@ -1184,9 +1186,7 @@ ol, ul {
         var icon_position = document.querySelector('input[name="position"]:checked').value;
         var icon_type = document.querySelector('input[name="aioa_icon_type"]:checked').value;
         var icon_size = document.querySelector('input[name="aioa_icon_size"]:checked').value;
-        
        
-  
   
   
       $('#license_key,#settings-colorcode').change(function () {
@@ -1212,20 +1212,26 @@ ol, ul {
         
       });
       
-     
-  
-      
+
   
   // Set the initial server name and display it
           window.onload = function () {
-            var server_name = domain
+            var server_name = domain;
+               let is_widget_custom_position = 0;
+             let is_widget_custom_size = 0;
+             
           };
   
           // Function to update the server name on dropdown change
          
+           
+                
+             
+              
       function f1() {
         var server_name = domain;
-        
+         is_widget_custom_position = is_widget_custom_position || 0;
+    is_widget_custom_size = is_widget_custom_size || 0;
         // Update settings
         var colorcode = $("#settings-colorcode").val();
         var icon_position = document.querySelector('input[name="position"]:checked').value;
@@ -1257,10 +1263,10 @@ ol, ul {
     } else if (y_position_direction === "cust-pos-to-the-upper") {
       widget_position_top = custom_position_y;
     }
-  
+ 
         var url = 'https://ada.skynettechnologies.us/api/widget-setting-update-platform';
           // var params = `u=${server_name}&widget_position=${icon_position}&widget_color_code=${colorcode}&widget_icon_type=${icon_type}&widget_icon_size=${icon_size}&widget_size=${widget_size}&widget_icon_size_custom=${widget_icon_size_custom}&widget_position_right=${widget_position_right}&widget_position_left=${widget_position_left}&widget_position_top=${widget_position_top}&widget_position_bottom=${widget_position_bottom}`;
-          var params = `u=${server_name}&widget_position=${icon_position}&widget_color_code=${colorcode}&widget_icon_type=${icon_type}&widget_icon_size=${icon_size}&widget_size=${widget_size}&widget_icon_size_custom=${widget_icon_size_custom}&widget_position_right=${widget_position_right}&widget_position_left=${widget_position_left}&widget_position_top=${widget_position_top}&widget_position_bottom=${widget_position_bottom}`;
+          var params = `u=${server_name}&widget_position=${icon_position}&is_widget_custom_size=${is_widget_custom_size}&is_widget_custom_position=${is_widget_custom_position}&widget_color_code=${colorcode}&widget_icon_type=${icon_type}&widget_icon_size=${icon_size}&widget_size=${widget_size}&widget_icon_size_custom=${widget_icon_size_custom}&widget_position_right=${widget_position_right}&widget_position_left=${widget_position_left}&widget_position_top=${widget_position_top}&widget_position_bottom=${widget_position_bottom}`;
   
           // Create the request
           var xhr = new XMLHttpRequest();
@@ -1282,9 +1288,5 @@ ol, ul {
   
           // Send the request with parameters
           xhr.send(params);
-   
-  
-  
-  
       }
     </script>
