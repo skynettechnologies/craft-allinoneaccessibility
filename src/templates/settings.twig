@@ -45,7 +45,7 @@ ol, ul {
 }
 .all-in-one-accessibility-wrap .accessibility-settings .all-one-accessibility-form .save-changes-btn .btn {
     border-radius: .36rem;
-    padding: 20px 4% 5% 30px;
+    padding: 20px 3% 2% 29px;
     background-color: #420083;
 }
   </style>
@@ -772,7 +772,8 @@ ol, ul {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     
   <script>
-  
+  let is_widget_custom_position = 0; // Global default initialization
+let is_widget_custom_size = 0;
           // Listen for messages from the parent page
       
      const urlParams = new URLSearchParams(window.location.search);
@@ -780,13 +781,10 @@ ol, ul {
               const username = '{{ username }}';
               const email = '{{ email }}';
               
-              //console.log("Domain:", domain);
-              console.log("Username:", username);
-              console.log("Email:", email);
+              
   
               if (domain) {
-                  //console.log("Domain fetched:", domain);
-                  // You can now use the `domain` variable as needed
+                 
               }
   
   
@@ -819,10 +817,8 @@ ol, ul {
           'payment_source': ''
       };
   
-      console.log('Details to send:', arrDetails);
-  
       const apiUrl = "https://ada.skynettechnologies.us/api/get-autologin-link";
-      //console.log("website url"+website_name);
+     
       // Prepare the POST request
       fetch(apiUrl, {
           method: "POST",
@@ -840,7 +836,7 @@ ol, ul {
       })
       .then(result => {
           // Log the result to check the response structure
-          console.log(result); // This will log the full response from the API
+        
           
           // Check if the response contains a valid link
           if (result && result.link) {
@@ -868,7 +864,6 @@ ol, ul {
   
                   // Handle the response from the add-user-domain API (success/failure)
                   if (data.success) {
-                      //console.log("User domain added successfully!");
                   } else {
                       console.error("Error adding user domain.");
                   }
@@ -895,17 +890,16 @@ ol, ul {
   // Load settings from sessionStorage or cookies
   
    var domain_name = domain;
-   //console.log("domain_name fetch: " + domain_name);
-  // var domain_name = document.getElementById('domain-list').options[0].text;
+  
   var website_name = btoa(domain_name);
-          //console.log("Updated website_name: " + website_name);
+        
           fetchApiResponse(domain_name);
          fetchApiData(website_name); // Fetch API response for the updated domain
       // Set the initial domain name and fetch API response on page load
       window.onload = function () {
-          //console.log("Initial domain_name: " + domain_name);
+          
            website_name = btoa(domain_name);
-          //console.log("Updated domain_name: " + domain_name);
+         
           fetchApiResponse(domain_name);
           fetchApiData(website_name); // Fetch API response for the updated domain
           // Fetch initial response for the default domain
@@ -934,7 +928,7 @@ ol, ul {
                       .then((result) => {
               // Check if result and result.Data are valid
               if (result && result.Data && Object.keys(result.Data).length > 0) {
-                console.log("Widget settings fetched:", result.Data);
+              
                 const settings = {
                     widget_position: result.Data.widget_position || defaultSettings.widget_position,
                     widget_color_code: result.Data.widget_color_code || defaultSettings.widget_color_code,
@@ -953,7 +947,6 @@ ol, ul {
                   populateSettings(settings);
                 // You can process the settings here or pass them to another function
               } else {
-                //console.log("API returned 0 or no data. Loading settings from session or cookies.");
                     console.error("Invalid API response, using fallback settings.");
             
               }
@@ -979,9 +972,8 @@ ol, ul {
     .then((result) => {
       // Check if result and result.Data are valid
       if (result && result.Data && Object.keys(result.Data).length > 0) {
-        //console.log("Widget settings fetched:", result.Data);
       } else {
-        //console.log("API returned 0 or no data. Loading settings from session or cookies.");
+        
       }
     })
     .catch((error) => {
@@ -1016,7 +1008,7 @@ ol, ul {
    
     const iconImg = `https://www.skynettechnologies.com/sites/default/files/${settings.widget_icon_type}.svg`;
     $(".iconimg").attr("src", iconImg);
-    console.log("Icon updated to:", iconImg);
+
     const widget_icon_size_custom = document.getElementById("settings-widget_icon_size_custom");
     if (widget_icon_size_custom) {
       widget_icon_size_custom.value = settings.widget_icon_size_custom;
@@ -1072,9 +1064,9 @@ ol, ul {
   window.onload = function () {
     fetchSettings();
     domain_name = domain;
-    //console.log("load domain"+domain_name);
+    
         website_name = btoa(domain_name);
-        //console.log("Updated domain_name: " + domain_name);
+       
         fetchApiResponse(domain_name);
        fetchApiData(website_name); 
   
@@ -1082,14 +1074,16 @@ ol, ul {
   
       $(document).ready(function () {
        
-  
+
         // Custom Switchers
         $("#settings-custom-position-switcher").click(function () {
+                 is_widget_custom_position = 1;
           $(".custom-position-controls").toggleClass("hide");
           $(".widget-position").toggleClass("hide");
           
         });
         $("#settings-custom-size-switcher").click(function () {
+            is_widget_custom_size = 1;
           $(".custom-size-controls").toggleClass("hide");
           $(".widget-icon").toggleClass("hide");
         });
@@ -1128,7 +1122,7 @@ ol, ul {
       typeOptions.forEach((option) => {
         option.addEventListener("click", (event) => {
           var ico_type = document.querySelector('input[name="aioa_icon_type"]:checked').value;
-          console.log("icon type select"+ico_type);
+       
           sizeOptionsImg.forEach((option2) => {
             option2.setAttribute("src", "https://www.skynettechnologies.com/sites/default/files/" + ico_type + ".svg");
           });
@@ -1141,11 +1135,11 @@ ol, ul {
         var ico_size_value = document
           .querySelector('input[name="settings[aioa_icon_size]"]:checked + label img')
           .getAttribute("width");
-           console.log("icon ico_size_value select"+ico_size_value);
+         
         // Set default value to custom size input
         const widget_icon_size_custom = document.getElementById("settings-widget_icon_size_custom");
         document.getElementById("settings-widget_icon_size_custom").value = widget_icon_size_custom;
-        //console.log("Set default value to custom size input"+widget_icon_size_custom)
+       
      
         option.addEventListener("click", (event) => {
           var ico_width = document
@@ -1169,26 +1163,9 @@ ol, ul {
           custSizePreview.setAttribute("height", ico_size_value);
           custSizePreviewLabel.innerHTML = ico_size_value;
         }
-      //   if (ico_size_value < 20) {
-      //     custSizePreview.setAttribute("width", 20);
-      //     custSizePreview.setAttribute("height", 20);
-      //     custSizePreviewLabel.innerHTML = 20;
-      //   }
-      //   if (ico_size_value > 150) {
-      //     custSizePreview.setAttribute("width", 150);
-      //     custSizePreview.setAttribute("height", 150);
-      //     custSizePreviewLabel.innerHTML = 150;
-      //   }
+     
       });
   
-  
-  
-  
-  <!-- API -->
-                                
-  
-  
-      
         $('input[name="settings[position]"]').change(function () {
           var icon_position = document.querySelector('input[name="position"]:checked').value;
         });
@@ -1208,9 +1185,7 @@ ol, ul {
         var icon_position = document.querySelector('input[name="position"]:checked').value;
         var icon_type = document.querySelector('input[name="aioa_icon_type"]:checked').value;
         var icon_size = document.querySelector('input[name="aioa_icon_size"]:checked').value;
-        //// //console.log(website_dropdown_form_id, website_dropdown_name, license_key, colorcode, icon_position, icon_type, icon_size);
        
-  
   
   
       $('#license_key,#settings-colorcode').change(function () {
@@ -1236,22 +1211,26 @@ ol, ul {
         
       });
       
-     
-  
-      
+
   
   // Set the initial server name and display it
           window.onload = function () {
             var server_name = domain;
-            
-              //console.log("Initial server_name: " + server_name);
+               let is_widget_custom_position = 0;
+             let is_widget_custom_size = 0;
+             
           };
   
           // Function to update the server name on dropdown change
          
+           
+                
+             
+              
       function f1() {
         var server_name = domain;
-        
+         is_widget_custom_position = is_widget_custom_position || 0;
+    is_widget_custom_size = is_widget_custom_size || 0;
         // Update settings
         var colorcode = $("#settings-colorcode").val();
         var icon_position = document.querySelector('input[name="position"]:checked').value;
@@ -1283,14 +1262,10 @@ ol, ul {
     } else if (y_position_direction === "cust-pos-to-the-upper") {
       widget_position_top = custom_position_y;
     }
-  
-  
-  
-        //console.log(colorcode,icon_position,icon_type,icon_size,widget_position_right,widget_position_left,widget_position_top,widget_position_bottom,);
-  
+ 
         var url = 'https://ada.skynettechnologies.us/api/widget-setting-update-platform';
           // var params = `u=${server_name}&widget_position=${icon_position}&widget_color_code=${colorcode}&widget_icon_type=${icon_type}&widget_icon_size=${icon_size}&widget_size=${widget_size}&widget_icon_size_custom=${widget_icon_size_custom}&widget_position_right=${widget_position_right}&widget_position_left=${widget_position_left}&widget_position_top=${widget_position_top}&widget_position_bottom=${widget_position_bottom}`;
-          var params = `u=${server_name}&widget_position=${icon_position}&widget_color_code=${colorcode}&widget_icon_type=${icon_type}&widget_icon_size=${icon_size}&widget_size=${widget_size}&widget_icon_size_custom=${widget_icon_size_custom}&widget_position_right=${widget_position_right}&widget_position_left=${widget_position_left}&widget_position_top=${widget_position_top}&widget_position_bottom=${widget_position_bottom}`;
+          var params = `u=${server_name}&widget_position=${icon_position}&is_widget_custom_size=${is_widget_custom_size}&is_widget_custom_position=${is_widget_custom_position}&widget_color_code=${colorcode}&widget_icon_type=${icon_type}&widget_icon_size=${icon_size}&widget_size=${widget_size}&widget_icon_size_custom=${widget_icon_size_custom}&widget_position_right=${widget_position_right}&widget_position_left=${widget_position_left}&widget_position_top=${widget_position_top}&widget_position_bottom=${widget_position_bottom}`;
   
           // Create the request
           var xhr = new XMLHttpRequest();
@@ -1300,7 +1275,6 @@ ol, ul {
           xhr.onload = function () {
               if (xhr.status === 200) {
                   alert('Settings updated successfully!');
-                  //console.log('Response:', xhr.responseText);
               } else {
                   alert('Error: Unable to update settings. Please try again.');
                   console.error('Error:', xhr.statusText);
@@ -1313,9 +1287,5 @@ ol, ul {
   
           // Send the request with parameters
           xhr.send(params);
-   
-  
-  
-  
       }
     </script>
