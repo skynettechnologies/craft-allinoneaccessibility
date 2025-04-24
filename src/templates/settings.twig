@@ -57,7 +57,7 @@ ol, ul {
   {#    margin-right: auto;#}
   {#    width: 30%;#}
   {#">#}
-
+{# Widget Setting Code #}
     <div class="shopify-wrap-block">
       <div class="container">
         <div class="set-width">
@@ -787,7 +787,7 @@ let is_widget_custom_size = 0;
                  
               }
   
-  
+  // Add User domain  on ADA dashboard
   function fetchApiData(website_name) {
    
   
@@ -909,6 +909,7 @@ let is_widget_custom_size = 0;
      
   
       // Function to fetch API response using POST
+      //Fetch widget setting API
       function fetchApiResponse(domain_name) {
           const apiUrl = "https://ada.skynettechnologies.us/api/widget-settings";
           
@@ -1279,7 +1280,7 @@ let is_widget_custom_size = 0;
     } else if (y_position_direction === "cust-pos-to-the-upper") {
       widget_position_top = custom_position_y;
     }
- 
+ // Update Widget Settings API
         var url = 'https://ada.skynettechnologies.us/api/widget-setting-update-platform';
           // var params = `u=${server_name}&widget_position=${icon_position}&widget_color_code=${colorcode}&widget_icon_type=${icon_type}&widget_icon_size=${icon_size}&widget_size=${widget_size}&widget_icon_size_custom=${widget_icon_size_custom}&widget_position_right=${widget_position_right}&widget_position_left=${widget_position_left}&widget_position_top=${widget_position_top}&widget_position_bottom=${widget_position_bottom}`;
           var params = `u=${server_name}&widget_position=${icon_position}&is_widget_custom_size=${is_widget_custom_size}&is_widget_custom_position=${is_widget_custom_position}&widget_color_code=${colorcode}&widget_icon_type=${icon_type}&widget_icon_size=${icon_size}&widget_size=${widget_size}&widget_icon_size_custom=${widget_icon_size_custom}&widget_position_right=${widget_position_right}&widget_position_left=${widget_position_left}&widget_position_top=${widget_position_top}&widget_position_bottom=${widget_position_bottom}`;
