@@ -746,7 +746,7 @@ ol, ul {
                       </div>
                     </div>
    <div class="save-changes-btn">
-                      <button type="button" id="submit" onclick="f1()" class="btn btn-primary">Save Changes</button>
+                      <button type="button" id="submit" onclick="f1()" class="btn btn-primary col-2" style="align-items: center;justify-content: center;height: 40px;padding: 0 20px;line-height: normal;">Save Changes</button>
                     </div>
   
                     <div class="mt-3 row " id="save-changes-success">
@@ -936,15 +936,18 @@ let is_widget_custom_size = 0;
                     widget_icon_type: result.Data.widget_icon_type || defaultSettings.widget_icon_type,
                     widget_icon_size: result.Data.widget_icon_size || defaultSettings.widget_icon_size,
                     widget_size: result.Data.widget_size || defaultSettings.widget_size,
+                    is_widget_custom_size: result.Data.is_widget_custom_size || defaultSettings.is_widget_custom_size,
+                    is_widget_custom_position: result.Data.is_widget_custom_position || defaultSettings.is_widget_custom_position,
                     widget_icon_size_custom: result.Data.widget_icon_size_custom || defaultSettings.widget_icon_size_custom,
                     widget_position_top: result.Data.widget_position_top || 0,
                     widget_position_bottom: result.Data.widget_position_bottom || 0,
                     widget_position_left: result.Data.widget_position_left || 0,
                     widget_position_right: result.Data.widget_position_right || 0,
                   };
-  
-                  console.log("Fetched settings:", settings);
-               
+
+                  is_widget_custom_position = result.Data.is_widget_custom_position || defaultSettings.is_widget_custom_position;
+                  is_widget_custom_size = result.Data.is_widget_custom_size || defaultSettings.is_widget_custom_size,
+
                   populateSettings(settings);
                 // You can process the settings here or pass them to another function
               } else {
@@ -1010,10 +1013,44 @@ let is_widget_custom_size = 0;
     const iconImg = `https://www.skynettechnologies.com/sites/default/files/${settings.widget_icon_type}.svg`;
     $(".iconimg").attr("src", iconImg);
 
-    const widget_icon_size_custom = document.getElementById("settings-widget_icon_size_custom");
-    if (widget_icon_size_custom) {
-      widget_icon_size_custom.value = settings.widget_icon_size_custom;
-    }
+const widget_icon_size_custom = document.getElementById("settings-custom-size-switcher");
+const widgetIconSizeInput = document.getElementById("settings-widget_icon_size_custom");
+
+if (widget_icon_size_custom && widgetIconSizeInput) {
+  // Set the initial checkbox state
+  widget_icon_size_custom.checked = !!settings.is_widget_custom_size;
+
+  // Toggle visibility of elements based on the checkbox state
+  if (widget_icon_size_custom.checked) {
+
+    // Set input value if checked
+  widgetIconSizeInput.value = settings.widget_icon_size_custom;
+
+    $(".custom-size-controls").removeClass("hide");
+    $(".widget-icon").addClass("hide");
+  } else {
+    $(".custom-size-controls").addClass("hide");
+    $(".widget-icon").removeClass("hide");
+  }
+}
+
+const widget_icon_position_custom = document.getElementById("settings-custom-position-switcher");
+
+if (widget_icon_position_custom) {
+  // Set the initial checkbox state
+  widget_icon_position_custom.checked = !!settings.is_widget_custom_position;
+
+  // Toggle visibility of elements based on the checkbox state
+  if (widget_icon_position_custom.checked) {
+    $(".custom-position-controls").removeClass("hide");
+    $(".widget-position").addClass("hide");
+  } else {
+    $(".custom-position-controls").addClass("hide");
+    $(".widget-position").removeClass("hide");
+  }
+}
+
+
     const positionRadio = document.querySelector(`input[name="position"][value="${settings.widget_position}"]`);
     if (positionRadio) {
       positionRadio.checked = true;
@@ -1077,16 +1114,20 @@ let is_widget_custom_size = 0;
        
 
         // Custom Switchers
-        $("#settings-custom-position-switcher").click(function () {
-                 is_widget_custom_position = 1;
-          $(".custom-position-controls").toggleClass("hide");
-          $(".widget-position").toggleClass("hide");
-          
-        });
-        $("#settings-custom-size-switcher").click(function () {
-            is_widget_custom_size = 1;
-          $(".custom-size-controls").toggleClass("hide");
-          $(".widget-icon").toggleClass("hide");
+          $("#settings-custom-position-switcher").on("change", function () {
+              const isChecked = this.checked;
+              is_widget_custom_position = isChecked ? 1 : 0;
+
+              $(".custom-position-controls").toggleClass("hide", !isChecked);
+              $(".widget-position").toggleClass("hide", isChecked);
+          });
+
+          $("#settings-custom-size-switcher").on("change", function () {
+            const isChecked = this.checked;
+            is_widget_custom_size = isChecked ? 1 : 0;
+
+            $(".custom-size-controls").toggleClass("hide", !isChecked);
+            $(".widget-icon").toggleClass("hide", isChecked);
         });
       });
   
@@ -1232,12 +1273,12 @@ let is_widget_custom_size = 0;
 
   
   // Set the initial server name and display it
-          window.onload = function () {
-            var server_name = domain;
-               let is_widget_custom_position = 0;
-             let is_widget_custom_size = 0;
+          // window.onload = function () {
+          //   var server_name = domain;
+          //      let is_widget_custom_position = 0;
+          //    let is_widget_custom_size = 0;
              
-          };
+          // };
   
           // Function to update the server name on dropdown change
          
@@ -1280,7 +1321,15 @@ let is_widget_custom_size = 0;
     } else if (y_position_direction === "cust-pos-to-the-upper") {
       widget_position_top = custom_position_y;
     }
- // Update Widget Settings API
+
+    console.log("is_widget_custom_size: "+ is_widget_custom_size)
+    console.log("icon_size: "+ widget_icon_size_custom)
+
+    if (is_widget_custom_size == 1 && widget_icon_size_custom < 20) {
+      alert("Please enter valid size..!")
+      return;
+    }
+ 
         var url = 'https://ada.skynettechnologies.us/api/widget-setting-update-platform';
           // var params = `u=${server_name}&widget_position=${icon_position}&widget_color_code=${colorcode}&widget_icon_type=${icon_type}&widget_icon_size=${icon_size}&widget_size=${widget_size}&widget_icon_size_custom=${widget_icon_size_custom}&widget_position_right=${widget_position_right}&widget_position_left=${widget_position_left}&widget_position_top=${widget_position_top}&widget_position_bottom=${widget_position_bottom}`;
           var params = `u=${server_name}&widget_position=${icon_position}&is_widget_custom_size=${is_widget_custom_size}&is_widget_custom_position=${is_widget_custom_position}&widget_color_code=${colorcode}&widget_icon_type=${icon_type}&widget_icon_size=${icon_size}&widget_size=${widget_size}&widget_icon_size_custom=${widget_icon_size_custom}&widget_position_right=${widget_position_right}&widget_position_left=${widget_position_left}&widget_position_top=${widget_position_top}&widget_position_bottom=${widget_position_bottom}`;
