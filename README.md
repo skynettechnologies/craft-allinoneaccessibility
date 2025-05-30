@@ -1,4 +1,4 @@
-# All in One Accessibility®:
+# All in One Accessibility®: Craft CMS Plugin
 
 ## Enhance Your Website's Accessibility with All in One Accessibility®
 
