@@ -778,14 +778,6 @@ let is_widget_custom_size = 0;
       
      const urlParams = new URLSearchParams(window.location.search);
               const domain = '{{ domain }}';
-              const username = '{{ username }}';
-              const email = '{{ email }}';
-              
-              
-  
-              if (domain) {
-                 
-              }
   
   
   function fetchApiData(website_name) {
@@ -794,9 +786,9 @@ let is_widget_custom_size = 0;
   
       var packageType = "free-widget";
       var arrDetails = {
-          'name': username,
-          'email': email,
-          'company_name': username,
+          'name': website_name,
+          'email': 'no-reply@'+website_name+'.com',
+          'company_name': website_name,
           'website': website_name,
           'package_type': packageType,
           'start_date': new Date().toISOString(),
