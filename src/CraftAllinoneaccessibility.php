@@ -51,7 +51,7 @@ class CraftAllinoneaccessibility extends Plugin
       $siteurl = 'http://' . $siteurl;
     }
 
-    $domain = parse_url($siteurl, PHP_URL_HOST);
+    $domain = $_SERVER['HTTP_HOST'];
     $data['domain'] = $domain;
 
     return Craft::$app->view->renderTemplate(
@@ -66,7 +66,7 @@ class CraftAllinoneaccessibility extends Plugin
     $scriptId = 'aioa-adawidget';
 
     $license_key = "";
-    $color_code = '#600b96';
+    $color_code = '#420083';
     $position = 'bottom_right';
     $icon_type = 'aioa-icon-type-1';
     $icon_size = 'aioa-medium-icon';
@@ -88,9 +88,51 @@ class CraftAllinoneaccessibility extends Plugin
       $icon_type = isset($settings->icon_type) ? $settings->icon_type : "aioa-icon-type-1";
       $icon_size = isset($settings->icon_size) ? $settings->icon_size : "aioa-medium-icon";
     }
-    $customJsUrl = "https://www.skynettechnologies.com/accessibility/js/all-in-one-accessibility-js-widget-minify.js?colorcode=" . $color_code . "&token=" . $license_key . "&position=" . $position . "." . $icon_type . "." . $icon_size . " ";
 
-    // Get the current URL path
+    // Add JS in Front side
+    
+
+    $apiUrl = "https://ipapi.co/json/";
+
+    $ch = curl_init($apiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($httpCode === 200 && !empty($response)) {
+        $visitorData = json_decode($response, true);
+    } else {
+        $visitorData = ['in_eu' => false];
+    }
+
+    /**
+     * Normalize EU flag
+     */
+    $rawInEU = $visitorData['in_eu'] ?? false;
+    $inEU = filter_var($rawInEU, FILTER_VALIDATE_BOOLEAN);
+    $is_eu = $inEU ? 0 : 1; // EU = 0, Non-EU = 1
+
+    /**
+     * Decide script URL based on EU status
+     */
+    if ($is_eu === 0) {
+        // EU script
+        $customJsUrl = "https://eu.skynettechnologies.com/accessibility/js/all-in-one-accessibility-js-widget-minify.js"
+            . "?colorcode=" . urlencode($color_code)
+            . "&token=" . urlencode($license_key)
+            . "&position=" . urlencode($position);
+    } else {
+        // Non-EU script
+        $customJsUrl = "https://www.skynettechnologies.com/accessibility/js/all-in-one-accessibility-js-widget-minify.js"
+            . "?colorcode=" . urlencode($color_code)
+            . "&token=" . urlencode($license_key)
+            . "&position=" . urlencode($position . "." . $icon_type . "." . $icon_size);
+    }
+
     // $currentUrl = Craft::$app->getRequest()->getAbsoluteUrl();
 
     $request = \Craft::$app->getRequest(); // initialize the variable first
