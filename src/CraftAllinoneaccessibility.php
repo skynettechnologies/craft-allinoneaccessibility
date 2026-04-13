@@ -24,10 +24,113 @@ class CraftAllinoneaccessibility extends Plugin
   {
     parent::init();
     self::$plugin = $this;
-
+    $this->registerDomainApi();
     \Yii::$app->on(Application::EVENT_BEFORE_REQUEST, [$this, 'registerCustomJs']);
   }
 
+private function registerDomainApi()
+{
+    $websitename = $_SERVER['HTTP_HOST'];
+
+    
+    // ---------- FIRST API (ipapi) ----------
+    $apiUrl1 = "https://ipapi.co/json/";
+
+    $ch = curl_init($apiUrl1);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_TIMEOUT => 5,
+    ]);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    $data = json_decode($response, true);
+
+    // Check if valid response
+    if ($httpCode === 200 && !empty($data) && isset($data['in_eu'])) {
+        $isEU = $data['in_eu'] ? 1 : 0;
+        
+    } else {
+
+        // ---------- SECOND API (ipwho) ----------
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        // Handle proxy / VPN / Cloudflare
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0];
+        }
+
+        $apiUrl2 = "https://ipwho.is/" . trim($ip);
+
+        $ch = curl_init($apiUrl2);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_TIMEOUT => 5,
+        ]);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $data = json_decode($response, true);
+
+        if (!empty($data) && isset($data['is_eu'])) {
+            $isEU = $data['is_eu'] ? 1 : 0;
+        } else {
+            // Default fallback (if both APIs fail)
+            $isEU = 0;
+        }
+    }
+
+    // Your final logic
+    $iseu = $isEU ? 0 : 1;
+    // ---------- USER DATA ----------
+    $arrDetails = [
+        'name' => $websitename,
+        'email' => 'no-reply@' . $websitename,
+        'company_name' => '',
+        'website' => base64_encode($websitename),
+        'package_type' => 'free-widget',
+        'start_date' => date(DATE_ISO8601),
+        'end_date' => '',
+        'price' => '',
+        'discount_price' => '0',
+        'platform' => 'Craft CMS', //
+        'api_key' => '',
+        'is_trial_period' => '',
+        'is_free_widget' => '1',
+        'bill_address' => '',
+        'country' => '',
+        'state' => '',
+        'city' => '',
+        'post_code' => '',
+        'transaction_id' => '',
+        'subscr_id' => '',
+        'payment_source' => '',
+         'no_required_eu'=> $iseu,
+    ];
+
+         // Directly call add-user-domain API
+        $secondApiUrl = "https://ada.skynettechnologies.us/api/add-user-domain";
+        $ch = curl_init($secondApiUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($arrDetails));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json'
+        ));
+
+        $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            error_log('cURL error: ' . curl_error($ch));
+        }
+        curl_close($ch);
+
+        $data = json_decode($response, true);
+}
   protected function createSettingsModel(): ?Model
   {
     return new Settings();
@@ -47,19 +150,19 @@ class CraftAllinoneaccessibility extends Plugin
     $siteurl = Craft::$app->getSites()->currentSite->baseUrl;
     // $domain = parse_url($siteurl, PHP_URL_HOST);
 
-
     if ($siteurl && !preg_match('#^https?://#', $siteurl)) {
       $siteurl = 'http://' . $siteurl;
     }
 
-    $domain = parse_url($siteurl, PHP_URL_HOST);
-
+    $domain = $_SERVER['HTTP_HOST'];
     $data['domain'] = $domain;
+
     return Craft::$app->view->renderTemplate(
       "allinone-accessibility/settings",
       $data
     );
   }
+
   public function registerCustomJs($event)
   {
     $app = $event->sender;
@@ -88,9 +191,44 @@ class CraftAllinoneaccessibility extends Plugin
       $icon_type = isset($settings->icon_type) ? $settings->icon_type : "aioa-icon-type-1";
       $icon_size = isset($settings->icon_size) ? $settings->icon_size : "aioa-medium-icon";
     }
-    $customJsUrl = "https://www.skynettechnologies.com/accessibility/js/all-in-one-accessibility-js-widget-minify.js?colorcode=" . $color_code . "&token=" . $license_key . "&position=" . $position . "." . $icon_type . "." . $icon_size . " ";
 
-    // Get the current URL path
+    $domain =  $_SERVER['HTTP_HOST'] ?? '';
+                
+                $domain_base64 = base64_encode($domain);
+
+                $apiUrl = "https://ada.skynettechnologies.us/api/widget-settings";
+                $postData = ['website_url' => $domain];
+
+                $ch = curl_init($apiUrl);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                $responseApi = curl_exec($ch);
+                curl_close($ch);
+
+                $apiResponse = json_decode($responseApi, true);
+
+                // 0 = load EU script | 1 = load normal AIO script
+                $no_required_eu = $apiResponse['Data']['no_required_eu'] ?? '1';
+
+    /**
+     * Decide script URL based on EU status
+     */
+    if ($no_required_eu == '0') {
+        // EU script
+        $customJsUrl = "https://eu.skynettechnologies.com/accessibility/js/all-in-one-accessibility-js-widget-minify.js"
+            . "?colorcode=" . urlencode($color_code)
+            . "&token=" . urlencode($license_key)
+            . "&position=" . urlencode($position);
+    } else {
+        // Non-EU script
+        $customJsUrl = "https://www.skynettechnologies.com/accessibility/js/all-in-one-accessibility-js-widget-minify.js"
+            . "?colorcode=" . urlencode($color_code)
+            . "&token=" . urlencode($license_key)
+            . "&position=" . urlencode($position . "." . $icon_type . "." . $icon_size);
+    }
+
     // $currentUrl = Craft::$app->getRequest()->getAbsoluteUrl();
 
     $request = \Craft::$app->getRequest(); // initialize the variable first
