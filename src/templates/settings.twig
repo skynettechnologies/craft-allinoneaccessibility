@@ -175,14 +175,14 @@ ol, ul {
                         </div>
                         <div
                           class="js-form-item form-item js-form-type-radio form-type-radio js-form-item-position form-item-position">
-                          <input type="radio" id="edit-position-middel-left" name="position" value="middel_left"
+                          <input type="radio" id="edit-position-middel-left" name="position" value="middle_left"
                             class="form-radio" />
   
                           <label for="edit-position-middel-left" class="option">Middle left</label>
                         </div>
                         <div
                           class="js-form-item form-item js-form-type-radio form-type-radio js-form-item-position form-item-position">
-                          <input type="radio" id="edit-position-middel-right" name="position" value="middel_right"
+                          <input type="radio" id="edit-position-middel-right" name="position" value="middle_right"
                             class="form-radio" />
   
                           <label for="edit-position-middel-right" class="option">Middle Right</label>
@@ -779,7 +779,7 @@ let is_widget_custom_size = 0;
      const urlParams = new URLSearchParams(window.location.search);
               const domain = '{{ domain }}';
   
-  // Add User domain  on ADA dashboard
+  {# // Add User domain  on ADA dashboard
   function fetchApiData(website_name) {
    
   
@@ -870,11 +870,11 @@ let is_widget_custom_size = 0;
       });
   }
   
-  
+   #}
   //end auto login api
   const defaultSettings = {
     widget_position: "bottom_right",
-    widget_color_code: "#861818",
+    widget_color_code: "#420083",
     widget_icon_type: "aioa-icon-type-1",
     widget_icon_size: "aioa-small-icon",
   };
@@ -886,14 +886,14 @@ let is_widget_custom_size = 0;
   var website_name = btoa(domain_name);
         
           fetchApiResponse(domain_name);
-         fetchApiData(website_name); // Fetch API response for the updated domain
+        // fetchApiData(website_name); // Fetch API response for the updated domain
       // Set the initial domain name and fetch API response on page load
       window.onload = function () {
           
            website_name = btoa(domain_name);
          
           fetchApiResponse(domain_name);
-          fetchApiData(website_name); // Fetch API response for the updated domain
+         // fetchApiData(website_name); // Fetch API response for the updated domain
           // Fetch initial response for the default domain
       };
   
@@ -931,10 +931,10 @@ let is_widget_custom_size = 0;
                     is_widget_custom_size: result.Data.is_widget_custom_size || defaultSettings.is_widget_custom_size,
                     is_widget_custom_position: result.Data.is_widget_custom_position || defaultSettings.is_widget_custom_position,
                     widget_icon_size_custom: result.Data.widget_icon_size_custom || defaultSettings.widget_icon_size_custom,
-                    widget_position_top: result.Data.widget_position_top || 0,
-                    widget_position_bottom: result.Data.widget_position_bottom || 0,
-                    widget_position_left: result.Data.widget_position_left || 0,
-                    widget_position_right: result.Data.widget_position_right || 0,
+                widget_position_top: result.Data.widget_position_top,
+                  widget_position_bottom: result.Data.widget_position_bottom,
+                  widget_position_left: result.Data.widget_position_left,
+                  widget_position_right: result.Data.widget_position_right,
                   };
 
                   is_widget_custom_position = result.Data.is_widget_custom_position || defaultSettings.is_widget_custom_position;
@@ -1052,40 +1052,39 @@ if (widget_icon_position_custom) {
       widget_size.checked = true;
     }
   
-    // Set custom position fields
-    const customPositionXField = document.getElementById("settings-custom_position_x_value");
-  
-    const xDirectionSelect = $(".custom-position-controls select").val();
-      
-  if (customPositionXField && xDirectionSelect) {
-    if (settings.widget_position_right > 0) {
-      customPositionXField.value = settings.widget_position_right;
-      xDirectionSelect.value = "cust-pos-to-the-right";
-    } else if (settings.widget_position_left > 0) {
-      customPositionXField.value = settings.widget_position_left;
-      xDirectionSelect.value = "cust-pos-to-the-left";
-    } else {
-      customPositionXField.value = 0;
-      xDirectionSelect.value = "cust-pos-to-the-right"; // Default direction
-    }
-  }
-  
-  
-  const customPositionYField = document.getElementById("settings-custom_position_y_value");
-  
-    const yDirectionSelect = $(".custom-position-controls select").val();
-  if (customPositionYField && yDirectionSelect) {
-    if (settings.widget_position_bottom > 0) {
-      customPositionYField.value = settings.widget_position_bottom;
-      yDirectionSelect.value = "cust-pos-to-the-lower";
-    } else if (settings.widget_position_top > 0) {
-      customPositionYField.value = settings.widget_position_top;
-      yDirectionSelect.value = "cust-pos-to-the-upper";
-    } else {
-      customPositionYField.value = 0;
-      yDirectionSelect.value = "cust-pos-to-the-lower"; // Default direction
-    }
-  }
+    // X-axis (horizontal) position
+        const customPositionXField = document.getElementById("settings-custom_position_x_value");
+        const xDirectionSelect = $(".custom-position-controls select")[0];
+
+        if (customPositionXField && xDirectionSelect) {
+          if (settings.widget_position_right != null && settings.widget_position_right >= 0) {
+            customPositionXField.value = settings.widget_position_right;
+            xDirectionSelect.value = "cust-pos-to-the-right";
+          } else if (settings.widget_position_left != null && settings.widget_position_left >= 0) {
+            customPositionXField.value = settings.widget_position_left;
+            xDirectionSelect.value = "cust-pos-to-the-left";
+          } else {
+            customPositionXField.value = 0; // default
+            xDirectionSelect.value = "cust-pos-to-the-right"; // default direction
+          }
+        }
+
+        // Y-axis (vertical) position
+        const customPositionYField = document.getElementById("settings-custom_position_y_value");
+        const yDirectionSelect = $(".custom-position-controls select")[1];
+
+        if (customPositionYField && yDirectionSelect) {
+          if (settings.widget_position_bottom != null && settings.widget_position_bottom >= 0) {
+            customPositionYField.value = settings.widget_position_bottom;
+            yDirectionSelect.value = "cust-pos-to-the-lower";
+          } else if (settings.widget_position_top != null && settings.widget_position_top >= 0) {
+            customPositionYField.value = settings.widget_position_top;
+            yDirectionSelect.value = "cust-pos-to-the-upper";
+          } else {
+            customPositionYField.value = 0; // default
+            yDirectionSelect.value = "cust-pos-to-the-lower"; // default direction
+          }
+        }
  
   }
   
@@ -1098,7 +1097,7 @@ if (widget_icon_position_custom) {
         website_name = btoa(domain_name);
        
         fetchApiResponse(domain_name);
-       fetchApiData(website_name); 
+      // fetchApiData(website_name); 
   
   };
   
@@ -1322,29 +1321,65 @@ if (widget_icon_position_custom) {
       return;
     }
  
-        var url = 'https://ada.skynettechnologies.us/api/widget-setting-update-platform';
-          // var params = `u=${server_name}&widget_position=${icon_position}&widget_color_code=${colorcode}&widget_icon_type=${icon_type}&widget_icon_size=${icon_size}&widget_size=${widget_size}&widget_icon_size_custom=${widget_icon_size_custom}&widget_position_right=${widget_position_right}&widget_position_left=${widget_position_left}&widget_position_top=${widget_position_top}&widget_position_bottom=${widget_position_bottom}`;
-          var params = `u=${server_name}&widget_position=${icon_position}&is_widget_custom_size=${is_widget_custom_size}&is_widget_custom_position=${is_widget_custom_position}&widget_color_code=${colorcode}&widget_icon_type=${icon_type}&widget_icon_size=${icon_size}&widget_size=${widget_size}&widget_icon_size_custom=${widget_icon_size_custom}&widget_position_right=${widget_position_right}&widget_position_left=${widget_position_left}&widget_position_top=${widget_position_top}&widget_position_bottom=${widget_position_bottom}`;
-  
-          // Create the request
-          var xhr = new XMLHttpRequest();
-          xhr.open('POST', url, true);
-          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  
-          xhr.onload = function () {
-              if (xhr.status === 200) {
-                  alert('Settings updated successfully!');
+       // Update Widget Setting on ADA dashboard
+             var url = 'https://ada.skynettechnologies.us/api/widget-setting-update-platform';
+
+      // Build payload (null stays null)
+      var payload = {
+        u: server_name,
+        widget_position: icon_position,
+        is_widget_custom_position: is_widget_custom_position,
+        is_widget_custom_size: is_widget_custom_size,
+        widget_color_code: colorcode,
+        widget_icon_type: icon_type,
+        widget_icon_size: icon_size,
+        widget_size: widget_size,
+        widget_icon_size_custom: widget_icon_size_custom,
+
+        widget_position_right: widget_position_right,
+        widget_position_left: widget_position_left,
+        widget_position_top: widget_position_top,
+        widget_position_bottom: widget_position_bottom
+      };
+
+
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onload = function () {
+      
+
+          if (xhr.status === 200) {
+            try {
+              var response = JSON.parse(xhr.responseText);
+        
+              // Success alert
+              if (response.msg) {
+                alert(response.msg);
               } else {
-                  alert('Error: Unable to update settings. Please try again.');
-                  console.error('Error:', xhr.statusText);
+                alert('Website Widget Settings saved successfully!');
               }
-          };
-  
-          xhr.onerror = function () {
-              alert('Request failed. Please check your network connection.');
-          };
-  
-          // Send the request with parameters
-          xhr.send(params);
+
+              location.reload();
+
+            } catch (e) {
+              console.error('Invalid JSON response:', xhr.responseText);
+              alert('Settings saved, but response format is invalid.');
+            }
+          } else {
+            console.error('HTTP Error:', xhr.status, xhr.statusText);
+            alert('Error: Unable to update widget settings.');
+          }
+        };
+
+        xhr.onerror = function () {
+          console.error('Network error');
+          alert('Network error. Please check your internet connection.');
+        };
+
+        xhr.send(JSON.stringify(payload));
+ 
       }
     </script>
