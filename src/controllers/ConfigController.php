@@ -11,7 +11,7 @@ class ConfigController extends Controller
   
   public function actionConfig()
   {
-    $settings = CraftAllinoneaccessibility::getInstance()->getSettings();
+    $settings = CraftAllinoneaccessibility::getInstance()->getSettings(); 
     
     $config = [
         "license_key" => $settings->license_key,

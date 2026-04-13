@@ -1,7 +1,7 @@
 <?php
 
 namespace skynettechnologies\craftAllinoneaccessibility\models;
-use craft\base\Model;
+use craft\base\Model; 
 
 class Settings extends Model
 {
