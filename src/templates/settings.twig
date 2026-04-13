@@ -175,14 +175,14 @@ ol, ul {
                         </div>
                         <div
                           class="js-form-item form-item js-form-type-radio form-type-radio js-form-item-position form-item-position">
-                          <input type="radio" id="edit-position-middel-left" name="position" value="middel_left"
+                          <input type="radio" id="edit-position-middel-left" name="position" value="middle_left"
                             class="form-radio" />
   
                           <label for="edit-position-middel-left" class="option">Middle left</label>
                         </div>
                         <div
                           class="js-form-item form-item js-form-type-radio form-type-radio js-form-item-position form-item-position">
-                          <input type="radio" id="edit-position-middel-right" name="position" value="middel_right"
+                          <input type="radio" id="edit-position-middel-right" name="position" value="middle_right"
                             class="form-radio" />
   
                           <label for="edit-position-middel-right" class="option">Middle Right</label>
@@ -777,11 +777,10 @@ let is_widget_custom_size = 0;
           // Listen for messages from the parent page
       
      const urlParams = new URLSearchParams(window.location.search);
-    
               const domain = '{{ domain }}';
   
-  // Add User domain  on ADA dashboard
-  function fetchApiData(domain) {
+  {# // Add User domain  on ADA dashboard
+  function fetchApiData(website_name) {
    
   
   
@@ -871,7 +870,7 @@ let is_widget_custom_size = 0;
       });
   }
   
-  
+   #}
   //end auto login api
   const defaultSettings = {
     widget_position: "bottom_right",
@@ -882,19 +881,19 @@ let is_widget_custom_size = 0;
   
   // Load settings from sessionStorage or cookies
   
-   var domain_name = '{{ domain }}';
+   var domain_name = domain;
   
   var website_name = btoa(domain_name);
         
           fetchApiResponse(domain_name);
-         fetchApiData(website_name); // Fetch API response for the updated domain
+        // fetchApiData(website_name); // Fetch API response for the updated domain
       // Set the initial domain name and fetch API response on page load
       window.onload = function () {
           
            website_name = btoa(domain_name);
          
           fetchApiResponse(domain_name);
-          fetchApiData(website_name); // Fetch API response for the updated domain
+         // fetchApiData(website_name); // Fetch API response for the updated domain
           // Fetch initial response for the default domain
       };
   
@@ -903,7 +902,6 @@ let is_widget_custom_size = 0;
   
       // Function to fetch API response using POST
       //Fetch widget setting API
-
       function fetchApiResponse(domain_name) {
           const apiUrl = "https://ada.skynettechnologies.us/api/widget-settings";
           
@@ -954,7 +952,6 @@ let is_widget_custom_size = 0;
                   // Handle error scenarios like invalid response or network issues
               });
       }
-     
   function fetchSettings() {
     const requestOptions = {
     method: "POST",
@@ -1100,7 +1097,7 @@ if (widget_icon_position_custom) {
         website_name = btoa(domain_name);
        
         fetchApiResponse(domain_name);
-       fetchApiData(website_name); 
+      // fetchApiData(website_name); 
   
   };
   
@@ -1282,7 +1279,6 @@ if (widget_icon_position_custom) {
               
       function f1() {
         var server_name = domain;
-       
          is_widget_custom_position = is_widget_custom_position || 0;
     is_widget_custom_size = is_widget_custom_size || 0;
         // Update settings

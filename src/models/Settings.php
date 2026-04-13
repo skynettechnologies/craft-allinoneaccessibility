@@ -6,7 +6,7 @@ use craft\base\Model;
 class Settings extends Model
 {
   public $license_key = "";
-  public $color = "#420083";
+  public $color = "#600b96";
   public $position = "bottom_right";
   public $icon_type = "aioa-icon-type-1";
   public $icon_size = "aioa-medium-icon";
