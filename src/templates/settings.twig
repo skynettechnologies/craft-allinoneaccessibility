@@ -777,8 +777,8 @@ let is_widget_custom_size = 0;
           // Listen for messages from the parent page
       
      const urlParams = new URLSearchParams(window.location.search);
-              const domain = '{{ domain }}';
-  
+              const domain = window.location.host;
+ 
   {# // Add User domain  on ADA dashboard
   function fetchApiData(website_name) {
    
