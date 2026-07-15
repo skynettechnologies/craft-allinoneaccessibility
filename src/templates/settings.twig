@@ -29,8 +29,10 @@
   .h2, h2 {
     font-size: 16px !important;
 }
-ol, ul {
-    padding-left: 0rem !important;
+dl, ol, ul {
+    margin-top: 0;
+    margin-bottom: unset;
+        padding-left: unset;
 }
 .all-in-one-accessibility-wrap .accessibility-settings .all-one-accessibility-form {
     margin: 0 auto 40px;
@@ -47,6 +49,10 @@ ol, ul {
     border-radius: .36rem;
     padding: 20px 3% 2% 29px;
     background-color: #420083;
+}
+a {
+   
+    text-decoration: none;
 }
   </style>
   {#<img src="https://ada.skynettechnologies.us/public/trial-assets/images/all-in-one-accessibility-logo.svg" alt="All in One Accessibility - Skynet Technologies" style="#}
@@ -776,101 +782,15 @@ ol, ul {
 let is_widget_custom_size = 0;
           // Listen for messages from the parent page
       
-     const urlParams = new URLSearchParams(window.location.search);
-              const domain = window.location.host;
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    const domain =window.location.host;
+     // Add User domain  on ADA dashboard
+               {# console.log(domain); #}
  
-  {# // Add User domain  on ADA dashboard
-  function fetchApiData(website_name) {
-   
+
   
   
-      var packageType = "free-widget";
-      var arrDetails = {
-          'name': website_name,
-          'email': 'no-reply@'+website_name+'.com',
-          'company_name': website_name,
-          'website': website_name,
-          'package_type': packageType,
-          'start_date': new Date().toISOString(),
-          'end_date': '',
-          'price': '',
-          'discount_price': '0',
-          'platform': 'Craft',
-          'api_key': '',
-          'is_trial_period': '',
-          'is_free_widget': '1',
-          'bill_address': '',
-          'country': '',
-          'state': '',
-          'city': '',
-          'post_code': '',
-          'transaction_id': '',
-          'subscr_id': '',
-          'payment_source': ''
-      };
-  
-      const apiUrl = "https://ada.skynettechnologies.us/api/get-autologin-link";
-     
-      // Prepare the POST request
-      fetch(apiUrl, {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json" // Specify the content type
-          },
-          body: JSON.stringify({ website: website_name }) // Pass the encoded domain name in the request body
-      })
-      .then(response => {
-          // Check if the response is okay (status code 200)
-          if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json(); // Parse the JSON response
-      })
-      .then(result => {
-          // Log the result to check the response structure
-        
-          
-          // Check if the response contains a valid link
-          if (result && result.link) {
-              console.log("Autologin Link:", result.link);  // Log the link
-          } else {
-              console.error("Invalid response or missing link.");
-          const secondApiUrl = "https://ada.skynettechnologies.us/api/add-user-domain";
-  
-              // Send the details to the second API
-              fetch(secondApiUrl, {
-                  method: "POST",
-                  headers: {
-                      "Content-Type": "application/json" // Specify the content type
-                  },
-                  body: JSON.stringify(arrDetails) // Pass the array data to the second API
-              })
-              .then(response => {
-                  if (!response.ok) {
-                      throw new Error(`HTTP error! Status: ${response.status}`);
-                  }
-                  return response.json();
-              })
-              .then(data => {
-                  console.log("Response from add-user-domain API:", data);
-  
-                  // Handle the response from the add-user-domain API (success/failure)
-                  if (data.success) {
-                  } else {
-                      console.error("Error adding user domain.");
-                  }
-              })
-              .catch(error => {
-                  console.error("Error sending data to add-user-domain API:", error);
-              });
-          }
-      })
-      .catch(error => {
-          console.error("Error fetching API:", error); // Log any errors
-      });
-  }
-  
-   #}
   //end auto login api
   const defaultSettings = {
     widget_position: "bottom_right",
@@ -885,14 +805,14 @@ let is_widget_custom_size = 0;
   
   var website_name = btoa(domain_name);
         
-          fetchApiResponse(domain_name);
+          //fetchApiResponse(domain_name);
         // fetchApiData(website_name); // Fetch API response for the updated domain
       // Set the initial domain name and fetch API response on page load
       window.onload = function () {
           
            website_name = btoa(domain_name);
          
-          fetchApiResponse(domain_name);
+         // fetchApiResponse(domain_name);
          // fetchApiData(website_name); // Fetch API response for the updated domain
           // Fetch initial response for the default domain
       };
@@ -943,16 +863,16 @@ let is_widget_custom_size = 0;
                   populateSettings(settings);
                 // You can process the settings here or pass them to another function
               } else {
-                    console.error("Invalid API response, using fallback settings.");
+                    {# console.error("Invalid API response, using fallback settings."); #}
             
               }
             })
               .catch(error => {
-                  console.error("Error fetching API:", error);
+                  {# console.error("Error fetching API:", error); #}
                   // Handle error scenarios like invalid response or network issues
               });
       }
-  function fetchSettings() {
+  {# function fetchSettings() {
     const requestOptions = {
     method: "POST",
     redirect: "follow"
@@ -973,13 +893,13 @@ let is_widget_custom_size = 0;
       }
     })
     .catch((error) => {
-      console.error("Error fetching widget settings:", error);
-      alert("Failed to fetch settings. Using default values.");
+      {# console.error("Error fetching widget settings:", error); #}
+      {# alert("Failed to fetch settings. Using default values.");
       
     });
-  
+   #}
     
-  }
+//  } #}
   
   // Populate form fields with settings
   function populateSettings(settings) {
@@ -1091,7 +1011,7 @@ if (widget_icon_position_custom) {
 
   // Fetch settings when the page loads
   window.onload = function () {
-    fetchSettings();
+    //fetchSettings();
     domain_name = domain;
     
         website_name = btoa(domain_name);
@@ -1165,9 +1085,11 @@ if (widget_icon_position_custom) {
   
       // Set icon on size select
       sizeOptions.forEach((option) => {
-        var ico_size_value = document
-          .querySelector('input[name="settings[aioa_icon_size]"]:checked + label img')
-          .getAttribute("width");
+        {# var ico_size_value = document
+          .querySelector('input[name="settings[aioa_icon_size]"]:checked + label img').getAttribute("width"); #}
+       const ico_size_value = document
+    .querySelector('input[name="aioa_icon_size"]:checked + label img')
+    ?.getAttribute("width") || "";
          
         // Set default value to custom size input
         const widget_icon_size_custom = document.getElementById("settings-widget_icon_size_custom");
@@ -1176,11 +1098,9 @@ if (widget_icon_position_custom) {
      
         option.addEventListener("click", (event) => {
           var ico_width = document
-            .querySelector('input[name="settings[aioa_icon_size]"]:checked + label img')
-            .getAttribute("width");
+            .querySelector('input[name="settings[aioa_icon_size]"]:checked + label img').getAttribute("width");
           var ico_height = document
-            .querySelector('input[name="settings[aioa_icon_size]"]:checked + label img')
-            .getAttribute("height");
+            .querySelector('input[name="settings[aioa_icon_size]"]:checked + label img').getAttribute("height");
           custSizePreview.setAttribute("width", ico_width);
           custSizePreview.setAttribute("height", ico_height);
           document.getElementById("settings-widget_icon_size_custom").value = ico_width;
@@ -1365,17 +1285,17 @@ if (widget_icon_position_custom) {
               location.reload();
 
             } catch (e) {
-              console.error('Invalid JSON response:', xhr.responseText);
+              {# console.error('Invalid JSON response:', xhr.responseText); #}
               alert('Settings saved, but response format is invalid.');
             }
           } else {
-            console.error('HTTP Error:', xhr.status, xhr.statusText);
+            {# console.error('HTTP Error:', xhr.status, xhr.statusText); #}
             alert('Error: Unable to update widget settings.');
           }
         };
 
         xhr.onerror = function () {
-          console.error('Network error');
+          {# console.error('Network error'); #}
           alert('Network error. Please check your internet connection.');
         };
 
