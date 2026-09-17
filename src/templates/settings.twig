@@ -29,8 +29,10 @@
   .h2, h2 {
     font-size: 16px !important;
 }
-ol, ul {
-    padding-left: 0rem !important;
+dl, ol, ul {
+    margin-top: 0;
+    margin-bottom: unset;
+        padding-left: unset;
 }
 .all-in-one-accessibility-wrap .accessibility-settings .all-one-accessibility-form {
     margin: 0 auto 40px;
@@ -48,6 +50,20 @@ ol, ul {
     padding: 20px 3% 2% 29px;
     background-color: #420083;
 }
+a {
+   
+    text-decoration: none;
+}
+.py-4 {
+    padding-top: 0rem !important;
+}
+.input-group>:not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    box-shadow: unset;
+    /* border: 1px solid #b5b5b5; */
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+
   </style>
   {#<img src="https://ada.skynettechnologies.us/public/trial-assets/images/all-in-one-accessibility-logo.svg" alt="All in One Accessibility - Skynet Technologies" style="#}
   {#    align-items: center;#}
@@ -64,6 +80,9 @@ ol, ul {
           <div class="all-in-one-accessibility-wrap">
             <div class="accessibility-settings">
               <div class="all-one-accessibility-form">
+                <div class="row justify-content-center py-4">
+                 <img src="https://payload.skynettechnologies.us/assets/images/all-in-one-accessibility-logo.svg" alt="" width="auto" height="70px" srcset="" style=" width: auto;">
+                </div>
                 <div class="all-one-accessibility-form-inner">
                   <form id="widget-form" name="widget-form" class="form-controler">
                      
@@ -100,8 +119,8 @@ ol, ul {
                         <div class="form-text">You can customize the ADA Widget color. For example: FF5733</div>
                       </div>
                     </div>
-                    <div class="icon-custom-position-wrapper mb-3 row">
-                      <div class="mb-4 pe-0 ps-0">
+                    <div class="icon-custom-position-wrapper mb-3 row" style="--bs-gutter-x:auto;">
+                      <div class="pe-0 ps-0">
                         <label class="custom-switcher ">
                           <span class="custom-switcher_right">
                             <input type="checkbox" id="custom-position-switcher" class="custom-switcher_inp_2"
@@ -114,14 +133,14 @@ ol, ul {
                         </label>
                         <div class="custom-position-controls hide">
                           <div class="row">
-                            <div class="col-auto">
+                            <div class="col-auto" style="margin-right: 1rem;">
                               <div class="input-group mb-3">
                                 <input type="number"  style="height:auto"  min="0" max="250" class="form-control" id="custom_position_x_value"
                                   aria-label="Value in pixels" aria-describedby="pos-value-input_1" oninput="this.value = Math.min(Math.max(this.value, 0), 250)" />
                                 <span class="input-group-text"  style="height:auto"  id="pos-value-input_1">PX</span>
                               </div>
                             </div>
-                            <div class="col-auto">
+                            <div class="col-auto"  >
                               <select class="form-select"  style="height:auto"  aria-label="Default select example">
                                 <option selected value="cust-pos-to-the-right">To the right</option>
                                 <option value="cust-pos-to-the-left">To the left</option>
@@ -129,7 +148,7 @@ ol, ul {
                             </div>
                           </div>
                           <div class="row">
-                            <div class="col-auto">
+                            <div class="col-auto" style="margin-right: 1rem;">
                               <div class="input-group mb-3">
                                 <input type="number"  style="height:auto"  min="0" max="250" class="form-control" id="custom_position_y_value"
                                   aria-label="Value in pixels" aria-describedby="pos-value-input_2" oninput="this.value = Math.min(Math.max(this.value, 0), 250)"/>
@@ -212,7 +231,7 @@ ol, ul {
                     </div>
   <!-- widget icon size -->
   
-  <h3 class="text-dark">Select Widget Size:</h3>
+  <h3 class="text-dark" style="font-weight: bold;">Select Widget Size:</h3>
                 <div class="form-radios  mb-3">
                   <div class="form-radio-item">
                     <input data-drupal-selector="edit-widget-size-regularsize" aria-describedby="edit-widget-size--description"  type="radio" id="edit-widget-size-regularsize" name="widget_size" value="0" checked="checked" class="form-radio form-boolean form-boolean--type-radio" wfd-id="id15">
@@ -227,7 +246,7 @@ ol, ul {
                    
   
                     <div class="icon-type-wrapper row " id="select_icon_type">
-                      <label class="fcol-sm-12 col-form-label" style="margin-left: -10.500px; margin-right: -10.500px;">Select icon type:</label>
+                      <label class="fcol-sm-12 col-form-label" >Select icon type:</label>
                       <div class="col-sm-12" style=" margin-right: -15px;">
                         <div class="row">
                           <div class="col-auto mb-30">
@@ -591,7 +610,7 @@ ol, ul {
                             <span class="custom-switcher_body" data-bs-toggle="tooltip" data-bs-placement="bottom"
                               title="Toggle to override selected size" data-bs-custom-class="switcher-tooltip">
                             </span>
-                            <span class="custom-switcher_label">Enable icon custom size:</span>
+                            <span class="custom-switcher_label">Enable custom icon size:</span>
                           </span>
                         </label>
                         <div class="custom-size-controls hide">
@@ -772,158 +791,17 @@ ol, ul {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     
   <script>
- {# (async function () {
-    let isEU = 0;
-
-    try {
-        // ---------- FIRST API (ipapi) ----------
-        const res1 = await fetch("https://ipapi.co/json/", {
-            method: "GET"
-        });
-
-        if (res1.ok) {
-            const data1 = await res1.json();
-
-            if (data1 && typeof data1.in_eu !== "undefined") {
-                isEU = data1.in_eu ? 1 : 0;
-            } else {
-                throw new Error("Invalid ipapi response");
-            }
-        } else {
-            throw new Error("ipapi failed");
-        }
-
-    } catch (e) {
-
-        try {
-            // ---------- SECOND API (ipwho) ----------
-            const res2 = await fetch("https://ipwho.is/", {
-                method: "GET"
-            });
-
-            const data2 = await res2.json();
-
-            if (data2 && typeof data2.is_eu !== "undefined") {
-                isEU = data2.is_eu ? 1 : 0;
-            } else {
-                isEU = 0;
-            }
-
-        } catch (err) {
-            // Final fallback
-            isEU = 0;
-        }
-    }
-
-    // Final logic (same as PHP)
-    const iseu = isEU ? 0 : 1;
-
-    console.log("isEU:", isEU);
-    console.log("iseu (final):", iseu); #}
-
-    // 👉 use this variable where needed
-    {# window.isEUFlag = iseu;
-
-})(); #}
   let is_widget_custom_position = 0; // Global default initialization
 let is_widget_custom_size = 0;
           // Listen for messages from the parent page
       
-     const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(window.location.search);
     
-              const domain = '{{ domain }}';
-  
-  // Add User domain  on ADA dashboard
-  {# function fetchApiData(domain) {
-   
-  
-  
-      var packageType = "free-widget";
-      var arrDetails = {
-          'name': website_name,
-          'email': 'no-reply@'+website_name+'.com',
-          'company_name': website_name,
-          'website': website_name,
-          'package_type': packageType,
-          'start_date': new Date().toISOString(),
-          'end_date': '',
-          'price': '',
-          'discount_price': '0',
-          'platform': 'Craft',
-          'api_key': '',
-          'is_trial_period': '',
-          'is_free_widget': '1',
-          'bill_address': '',
-          'country': '',
-          'state': '',
-          'city': '',
-          'post_code': '',
-          'transaction_id': '',
-          'subscr_id': '',
-          'payment_source': '',
-          'no_required_eu': iseu,
-      };
-  
-      const apiUrl = "https://ada.skynettechnologies.us/api/get-autologin-link";
-     
-      // Prepare the POST request
-      fetch(apiUrl, {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json" // Specify the content type
-          },
-          body: JSON.stringify({ website: website_name }) // Pass the encoded domain name in the request body
-      })
-      .then(response => {
-          // Check if the response is okay (status code 200)
-          if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json(); // Parse the JSON response
-      })
-      .then(result => {
-          // Log the result to check the response structure
-        
-          
-          // Check if the response contains a valid link
-          if (result && result.link) {
-              console.log("Autologin Link:", result.link);  // Log the link
-          } else {
-              console.error("Invalid response or missing link.");
-          const secondApiUrl = "https://ada.skynettechnologies.us/api/add-user-domain";
-  
-              // Send the details to the second API
-              fetch(secondApiUrl, {
-                  method: "POST",
-                  headers: {
-                      "Content-Type": "application/json" // Specify the content type
-                  },
-                  body: JSON.stringify(arrDetails) // Pass the array data to the second API
-              })
-              .then(response => {
-                  if (!response.ok) {
-                      throw new Error(`HTTP error! Status: ${response.status}`);
-                  }
-                  return response.json();
-              })
-              .then(data => {
-                  console.log("Response from add-user-domain API:", data);
-  
-                  // Handle the response from the add-user-domain API (success/failure)
-                  if (data.success) {
-                  } else {
-                      console.error("Error adding user domain.");
-                  }
-              })
-              .catch(error => {
-                  console.error("Error sending data to add-user-domain API:", error);
-              });
-          }
-      })
-      .catch(error => {
-          console.error("Error fetching API:", error); // Log any errors
-      });
-  } #}
+    const domain =window.location.host;
+     // Add User domain  on ADA dashboard
+               {# console.log(domain); #}
+ 
+
   
   
   //end auto login api
@@ -936,19 +814,19 @@ let is_widget_custom_size = 0;
   
   // Load settings from sessionStorage or cookies
   
-   var domain_name = '{{ domain }}';
+   var domain_name = domain;
   
   var website_name = btoa(domain_name);
         
-          fetchApiResponse(domain_name);
-       //  fetchApiData(website_name); // Fetch API response for the updated domain
+          //fetchApiResponse(domain_name);
+        // fetchApiData(website_name); // Fetch API response for the updated domain
       // Set the initial domain name and fetch API response on page load
       window.onload = function () {
           
            website_name = btoa(domain_name);
          
-          fetchApiResponse(domain_name);
-       //   fetchApiData(website_name); // Fetch API response for the updated domain
+         // fetchApiResponse(domain_name);
+         // fetchApiData(website_name); // Fetch API response for the updated domain
           // Fetch initial response for the default domain
       };
   
@@ -957,7 +835,6 @@ let is_widget_custom_size = 0;
   
       // Function to fetch API response using POST
       //Fetch widget setting API
-    
       function fetchApiResponse(domain_name) {
           const apiUrl = "https://ada.skynettechnologies.us/api/widget-settings";
           
@@ -999,17 +876,16 @@ let is_widget_custom_size = 0;
                   populateSettings(settings);
                 // You can process the settings here or pass them to another function
               } else {
-                    console.error("Invalid API response, using fallback settings.");
+                    {# console.error("Invalid API response, using fallback settings."); #}
             
               }
             })
               .catch(error => {
-                  console.error("Error fetching API:", error);
+                  {# console.error("Error fetching API:", error); #}
                   // Handle error scenarios like invalid response or network issues
               });
       }
-     
-  function fetchSettings() {
+  {# function fetchSettings() {
     const requestOptions = {
     method: "POST",
     redirect: "follow"
@@ -1030,13 +906,13 @@ let is_widget_custom_size = 0;
       }
     })
     .catch((error) => {
-      console.error("Error fetching widget settings:", error);
-      alert("Failed to fetch settings. Using default values.");
+      {# console.error("Error fetching widget settings:", error); #}
+      {# alert("Failed to fetch settings. Using default values.");
       
     });
-  
+   #}
     
-  }
+//  } #}
   
   // Populate form fields with settings
   function populateSettings(settings) {
@@ -1148,13 +1024,13 @@ if (widget_icon_position_custom) {
 
   // Fetch settings when the page loads
   window.onload = function () {
-    fetchSettings();
+    //fetchSettings();
     domain_name = domain;
     
         website_name = btoa(domain_name);
        
         fetchApiResponse(domain_name);
-       //fetchApiData(website_name); 
+      // fetchApiData(website_name); 
   
   };
   
@@ -1222,9 +1098,11 @@ if (widget_icon_position_custom) {
   
       // Set icon on size select
       sizeOptions.forEach((option) => {
-        var ico_size_value = document
-          .querySelector('input[name="settings[aioa_icon_size]"]:checked + label img')
-          .getAttribute("width");
+        {# var ico_size_value = document
+          .querySelector('input[name="settings[aioa_icon_size]"]:checked + label img').getAttribute("width"); #}
+       const ico_size_value = document
+    .querySelector('input[name="aioa_icon_size"]:checked + label img')
+    ?.getAttribute("width") || "";
          
         // Set default value to custom size input
         const widget_icon_size_custom = document.getElementById("settings-widget_icon_size_custom");
@@ -1233,11 +1111,9 @@ if (widget_icon_position_custom) {
      
         option.addEventListener("click", (event) => {
           var ico_width = document
-            .querySelector('input[name="settings[aioa_icon_size]"]:checked + label img')
-            .getAttribute("width");
+            .querySelector('input[name="settings[aioa_icon_size]"]:checked + label img').getAttribute("width");
           var ico_height = document
-            .querySelector('input[name="settings[aioa_icon_size]"]:checked + label img')
-            .getAttribute("height");
+            .querySelector('input[name="settings[aioa_icon_size]"]:checked + label img').getAttribute("height");
           custSizePreview.setAttribute("width", ico_width);
           custSizePreview.setAttribute("height", ico_height);
           document.getElementById("settings-widget_icon_size_custom").value = ico_width;
@@ -1336,7 +1212,6 @@ if (widget_icon_position_custom) {
               
       function f1() {
         var server_name = domain;
-       
          is_widget_custom_position = is_widget_custom_position || 0;
     is_widget_custom_size = is_widget_custom_size || 0;
         // Update settings
@@ -1423,17 +1298,17 @@ if (widget_icon_position_custom) {
               location.reload();
 
             } catch (e) {
-              console.error('Invalid JSON response:', xhr.responseText);
+              {# console.error('Invalid JSON response:', xhr.responseText); #}
               alert('Settings saved, but response format is invalid.');
             }
           } else {
-            console.error('HTTP Error:', xhr.status, xhr.statusText);
+            {# console.error('HTTP Error:', xhr.status, xhr.statusText); #}
             alert('Error: Unable to update widget settings.');
           }
         };
 
         xhr.onerror = function () {
-          console.error('Network error');
+          {# console.error('Network error'); #}
           alert('Network error. Please check your internet connection.');
         };
 
