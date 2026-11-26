@@ -52,8 +52,6 @@ class CraftAllinoneaccessibility extends Plugin
     public function afterInstall(): void
     {
         parent::afterInstall();
-
-        $this->registerDomainApi();
     }
 
     protected function createSettingsModel(): ?Model
@@ -61,32 +59,56 @@ class CraftAllinoneaccessibility extends Plugin
         return new Settings();
     }
 
-    protected function settingsHtml(): string
+    protected function settingsHtml(): ?string
     {
-        \skynettechnologies\craftallinoneaccessibility\assetbundles\AdminSettingsAsset::register(
-            Craft::$app->getView()
+        $view = Craft::$app->getView();
+
+        $bundle = \skynettechnologies\craftallinoneaccessibility\assetbundles\AdminSettingsAsset::register(
+            $view
         );
 
-        return Craft::$app->view->renderTemplate(
-            "allinone-accessibility/settings"
-        );
+        $assetBaseUrl = $bundle->baseUrl;
+
+        // Read parameters passed to the Craft settings page.
+        $request = Craft::$app->getRequest();
+            $user = Craft::$app->getUser()->getIdentity();
+
+            $siteUrl = Craft::$app->getSites()->getCurrentSite()->getBaseUrl();
+            $domain = parse_url($siteUrl, PHP_URL_HOST) ?: $request->getHostName();
+
+            $page = [
+                'domain' => $request->getQueryParam('url') ?: $domain,
+                'name' => $request->getQueryParam('username') ?: ($user?->username ?? ''),
+                'email' => $request->getQueryParam('email') ?: ($user?->email ?? ''),
+                'theme' => $request->getQueryParam('theme') ?: '',
+            ];
+
+        $phpFile = __DIR__ . '/templates/setting.php';
+
+        if (!file_exists($phpFile)) {
+            return '';
+        }
+
+        ob_start();
+
+        try {
+            include $phpFile;
+            return ob_get_clean();
+        } catch (\Throwable $e) {
+            ob_end_clean();
+            throw $e;
+        }
     }
 
     /**
-
-
-
      * Generic CURL
-
-
-
      */
 
     private function callApi(
         string $url,
         $post = null,
         bool $json = false
-    ): array {
+         ): array {
         $ch = curl_init($url);
 
         curl_setopt_array($ch, [
@@ -123,13 +145,7 @@ class CraftAllinoneaccessibility extends Plugin
     }
 
     /**
-
-
-
      * Detect EU
-
-
-
      */
 
     private function getNoRequiredEu(): int
@@ -152,82 +168,7 @@ class CraftAllinoneaccessibility extends Plugin
     }
 
     /**
-
-
-
-     * Runs only after plugin installation
-
-
-
-     */
-
-    private function registerDomainApi(): void
-    {
-        $domain = Craft::$app->getRequest()->getHostName();
-
-        $payload = [
-            "name" => $domain,
-
-            "email" => "no-reply@" . $domain,
-
-            "company_name" => "",
-
-            "website" => base64_encode($domain),
-
-            "package_type" => "free-widget",
-
-            "start_date" => date(DATE_ISO8601),
-
-            "end_date" => "",
-
-            "price" => "",
-
-            "discount_price" => "0",
-
-            "platform" => "Craft CMS", //
-
-            "api_key" => "",
-
-            "is_trial_period" => "",
-
-            "is_free_widget" => "1",
-
-            "bill_address" => "",
-
-            "country" => "",
-
-            "state" => "",
-
-            "city" => "",
-
-            "post_code" => "",
-
-            "transaction_id" => "",
-
-            "subscr_id" => "",
-
-            "payment_source" => "",
-
-            "no_required_eu" => $this->getNoRequiredEu(),
-        ];
-
-        $this->callApi(
-            "https://ada.skynettechnologies.us/api/add-user-domain",
-
-            $payload,
-
-            true
-        );
-    }
-
-    /**
-
-
-
      * Load widget
-
-
-
      */
 
     private function registerCustomJs(): void
